@@ -4,7 +4,7 @@
 
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);   // <- opcional
-    InitWindow(1000, 1200, "Pinball - Fondo con mapa");
+    InitWindow(800, 1000, "Pinball - Fondo con mapa"); //800-1000
     SetTargetFPS(165);
 
     Physics physics;

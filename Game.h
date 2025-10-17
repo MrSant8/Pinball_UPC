@@ -27,6 +27,7 @@ private:
     BoxSprite ground;
     BoxSprite leftWall;
     BoxSprite rightWall;
+    BoxSprite ceiling;
 
     // Bola
     b2Body* ball = nullptr;

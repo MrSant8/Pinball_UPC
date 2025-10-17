@@ -9,20 +9,23 @@ Game::Game(Physics* p) : physics(p) {
     fondo = LoadTexture("Assets/mapa.png");  // asegúrate de que exista esta ruta
 
     // === Suelo y paredes ===
-    ground.w = 800.0f; ground.h = 20.0f;
-    ground.body = physics->CreateBox(400.0f, 590.0f, ground.w, ground.h, false);
+    ground.w = 1500.0f; ground.h = 20.0f;
+    ceiling.w = 1500.0f; ceiling.h = 20.0f;
+    ground.body = physics->CreateBox(100.0f, 1000.0f, ground.w, ground.h, false);//625
 
-    leftWall.w = 20.0f;  leftWall.h = 600.0f;
-    leftWall.body = physics->CreateBox(10.0f, 300.0f, leftWall.w, leftWall.h, false);
+    ceiling.body = physics->CreateBox(100.0f, 10.0f, ceiling.w, ceiling.h, false);
 
-    rightWall.w = 20.0f; rightWall.h = 600.0f;
-    rightWall.body = physics->CreateBox(790.0f, 300.0f, rightWall.w, rightWall.h, false);
+    leftWall.w = 20.0f;  leftWall.h = 1000.0f;
+    leftWall.body = physics->CreateBox(10.0f, 500.0f, leftWall.w, leftWall.h, false);
+
+    rightWall.w = 20.0f; rightWall.h = 1000.0f;
+    rightWall.body = physics->CreateBox(790.0f, 500.0f, rightWall.w, rightWall.h, false);
 
     // === Carril derecho (lanzador) ===
-    laneInner.w = 8.0f;   laneInner.h = 560.0f;
-    laneOuter.w = 8.0f;   laneOuter.h = 560.0f;
-    laneInner.body = physics->CreateBox(760.0f, 300.0f, laneInner.w, laneInner.h, false);
-    laneOuter.body = physics->CreateBox(785.0f, 300.0f, laneOuter.w, laneOuter.h, false);
+    laneInner.w = 8.0f;   laneInner.h = 800.0f;
+    laneOuter.w = 8.0f;   laneOuter.h = 800.0f;
+    laneInner.body = physics->CreateBox(750.0f, 700.0f, laneInner.w, laneInner.h, false);
+    laneOuter.body = physics->CreateBox(785.0f, 700.0f, laneOuter.w, laneOuter.h, false);
 
     // === Bola ===
     ballRadius = 10.0f;
@@ -32,9 +35,9 @@ Game::Game(Physics* p) : physics(p) {
     palancaIzquierda.w = 80.0f;  palancaIzquierda.h = 18.0f;
     palancaDerecha.w = 80.0f;  palancaDerecha.h = 18.0f;
 
-    float yFlipper = 540.0f;
-    float xLeft = 300.0f;
-    float xRight = 500.0f;
+    float yFlipper = 900.0f;
+    float xLeft = 250.0f;
+    float xRight = 450.0f;
 
     palancaIzquierda.body = physics->CreateBox(xLeft, yFlipper, palancaIzquierda.w, palancaIzquierda.h, true);
     palancaDerecha.body = physics->CreateBox(xRight, yFlipper, palancaDerecha.w, palancaDerecha.h, true);
@@ -53,7 +56,9 @@ Game::Game(Physics* p) : physics(p) {
 
     // === Rampas ===
     rampLeft.w = 120.0f; rampLeft.h = 12.0f;
-    rampLeft.body = physics->CreateBox(220.0f, 200.0f, rampLeft.w, rampLeft.h, false);
+    rampLeft.body = physics->CreateBox(720.0f, 100.0f, rampLeft.w, rampLeft.h, false);
+    rampLeft.body->SetTransform(rampLeft.body->GetPosition(), 45); //no rota
+    //rampLeft.body = physics->CreatePolygon(new b2Vec2(500.0f,500.0f),3,0.3f,0.1f); ------ no se hacer triangulos xd
     rampRight.w = 120.0f; rampRight.h = 12.0f;
     rampRight.body = physics->CreateBox(540.0f, 200.0f, rampRight.w, rampRight.h, false);
 
@@ -132,11 +137,12 @@ void Game::Draw() {
 
     // === Objetos físicos ===
     DrawBoxAA(ground, DARKGRAY);
+    DrawBoxAA(ceiling, DARKGRAY);
     DrawBoxAA(leftWall, DARKGRAY);
     DrawBoxAA(rightWall, DARKGRAY);
     DrawBoxAA(laneInner, GRAY);
-    DrawBoxAA(laneOuter, GRAY);
-    DrawBoxAA(rampLeft, LIGHTGRAY);
+    //DrawBoxAA(laneOuter, GRAY);
+    DrawBoxAA(rampLeft, RED);
     DrawBoxAA(rampRight, LIGHTGRAY);
 
     DrawBoxRot(palancaIzquierda, BLUE);

@@ -18,7 +18,7 @@ void Physics::Step(float dt, int velIters, int posIters) {
 b2Body* Physics::CreateBox(float x, float y, float w, float h, bool dynamic) {
     b2BodyDef bd;
     bd.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-    bd.type = dynamic ? b2_dynamicBody : b2_staticBody;
+    bd.type = dynamic ? b2_dynamicBody : b2_kinematicBody;
     b2Body* body = world->CreateBody(&bd);
 
     b2PolygonShape shape;
@@ -50,6 +50,7 @@ b2Body* Physics::CreateCircle(float x, float y, float radius, bool dynamic,
     fd.density = dynamic ? density : 0.0f;
     fd.friction = friction;
     fd.restitution = restitution;
+    
 
     body->CreateFixture(&fd);
     return body;
