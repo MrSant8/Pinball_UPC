@@ -16,17 +16,14 @@ void Physics::Step(float dt, int velIters, int posIters) {
 }
 
 b2Body* Physics::CreateBox(float x, float y, float w, float h, bool dynamic) {
-    // Definición del cuerpo
     b2BodyDef bd;
     bd.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
     bd.type = dynamic ? b2_dynamicBody : b2_staticBody;
     b2Body* body = world->CreateBody(&bd);
 
-    // Forma: caja
     b2PolygonShape shape;
     shape.SetAsBox(PIXEL_TO_METERS(w * 0.5f), PIXEL_TO_METERS(h * 0.5f));
 
-    // Fixture
     b2FixtureDef fd;
     fd.shape = &shape;
     fd.density = dynamic ? 1.0f : 0.0f;
@@ -39,21 +36,18 @@ b2Body* Physics::CreateBox(float x, float y, float w, float h, bool dynamic) {
 
 b2Body* Physics::CreateCircle(float x, float y, float radius, bool dynamic,
     float density, float friction, float restitution) {
-    // Definición del cuerpo
     b2BodyDef bd;
     bd.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
     bd.type = dynamic ? b2_dynamicBody : b2_staticBody;
     b2Body* body = world->CreateBody(&bd);
 
-    // Forma: círculo
     b2CircleShape shape;
     shape.m_p.Set(0.0f, 0.0f);
     shape.m_radius = PIXEL_TO_METERS(radius);
 
-    // Fixture
     b2FixtureDef fd;
     fd.shape = &shape;
-    fd.density = dynamic ? density : 0.0f; // estático => densidad 0
+    fd.density = dynamic ? density : 0.0f;
     fd.friction = friction;
     fd.restitution = restitution;
 
@@ -68,16 +62,36 @@ b2RevoluteJoint* Physics::CreateRevoluteJoint(
     bool enableMotor, float motorSpeedRad, float maxMotorTorque
 ) {
     b2RevoluteJointDef jd;
-    // Inicializamos con ancla en coordenadas de mundo (fácil y robusto)
     jd.Initialize(bodyA, bodyB, b2Vec2(PIXEL_TO_METERS(anchorX_px), PIXEL_TO_METERS(anchorY_px)));
-
     jd.enableLimit = true;
     jd.lowerAngle = lowerDeg * b2_pi / 180.0f;
     jd.upperAngle = upperDeg * b2_pi / 180.0f;
-
     jd.enableMotor = enableMotor;
     jd.motorSpeed = motorSpeedRad;
     jd.maxMotorTorque = maxMotorTorque;
-
     return (b2RevoluteJoint*)world->CreateJoint(&jd);
+}
+
+// Versión única y correcta de CreatePolygon
+b2Body* Physics::CreatePolygon(const b2Vec2* vertices, int count, float friction, float restitution) {
+    b2BodyDef bd;
+    bd.type = b2_staticBody;
+    b2Body* body = world->CreateBody(&bd);
+
+    b2Vec2* meters_vertices = new b2Vec2[count];
+    for (int i = 0; i < count; ++i) {
+        meters_vertices[i].Set(PIXEL_TO_METERS(vertices[i].x), PIXEL_TO_METERS(vertices[i].y));
+    }
+
+    b2PolygonShape shape;
+    shape.Set(meters_vertices, count);
+    delete[] meters_vertices;
+
+    b2FixtureDef fd;
+    fd.shape = &shape;
+    fd.density = 0.0f;
+    fd.friction = friction;
+    fd.restitution = restitution;
+    body->CreateFixture(&fd);
+    return body;
 }

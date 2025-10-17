@@ -3,20 +3,24 @@
 #include "Game.h"
 
 int main() {
-    InitWindow(800, 600, "Pinball desde cero"); // crea ventana
-    SetTargetFPS(60);                           // 60 FPS fijos
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);   // <- opcional
+    InitWindow(1000, 1200, "Pinball - Fondo con mapa");
+    SetTargetFPS(165);
 
-    Physics physics; // motor de físicas
-    Game game(&physics); // nuestro juego
+    Physics physics;
+    Game game(&physics);
 
-    while (!WindowShouldClose()) { // loop principal
-        game.Update();   // avanza física + input
-        BeginDrawing();  // empieza frame de raylib
-        ClearBackground(RAYWHITE); // limpia pantalla
-        game.Draw();     // dibuja escenario + bola
-        EndDrawing();    // muestra en ventana
+    while (!WindowShouldClose()) {
+        game.Update();
+
+        BeginDrawing();
+        ClearBackground(BLACK);  // mejor negro si tu imagen no cubre por alguna razón
+        game.Draw();
+        EndDrawing();
     }
 
-    CloseWindow(); // cerrar ventana
+    CloseWindow();
     return 0;
 }
+
+
