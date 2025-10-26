@@ -21,6 +21,55 @@ Game::Game(Physics* p) : physics(p) {
     rightWall.w = 20.0f; rightWall.h = 1000.0f;
     rightWall.body = physics->CreateBox(790.0f, 500.0f, rightWall.w, rightWall.h, false);
 
+    b2Vec2* mapCoords[78] = {
+    (1, 0,
+    0, 634,
+    104, 633,
+    105, 609,
+    56, 582,
+    50, 582,
+    44, 587,
+    35, 588,
+    26, 580,
+    26, 426,
+    77, 375,
+    79, 366,
+    21, 202,
+    21, 158,
+    28, 113,
+    40, 93,
+    48, 77,
+    84, 41,
+    102, 32,
+    122, 23,
+    134, 18,
+    150, 14,
+    164, 11,
+    174, 11,
+    206, 10,
+    223, 13,
+    242, 16,
+    260, 23,
+    273, 30,
+    286, 38,
+    295, 43,
+    328, 76,
+    348, 112,
+    353, 132,
+    357, 148,
+    358, 160,
+    358, 632,
+    377, 633,
+    376, 0)
+    };
+
+    
+    //b2Vec2 mapVector;
+    //mapVector.
+    //mapMain.body = physics->CreatePolygon(mapCoords);
+
+    //NO VA JAJA LOL ME CAGO EN TODO
+
     // === Carril derecho (lanzador) ===
     laneInner.w = 8.0f;   laneInner.h = 800.0f;
     laneOuter.w = 8.0f;   laneOuter.h = 800.0f;
