@@ -4,7 +4,9 @@
 
 int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);   // <- opcional
-    InitWindow(800, 1000, "Pinball - Fondo con mapa"); //800-1000
+
+    InitWindow(377, 635, "Pinball");
+
     SetTargetFPS(165);
 
     Physics physics;
@@ -14,7 +16,7 @@ int main() {
         game.Update();
 
         BeginDrawing();
-        ClearBackground(BLACK);  // mejor negro si tu imagen no cubre por alguna razón
+        ClearBackground(BLACK);
         game.Draw();
         EndDrawing();
     }
@@ -22,5 +24,3 @@ int main() {
     CloseWindow();
     return 0;
 }
-
-

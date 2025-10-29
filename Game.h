@@ -21,14 +21,7 @@ private:
     Physics* physics = nullptr;
 
     // Fondo
-    Texture2D fondo;  // <- NUEVO
-
-    // Base del escenario
-    BoxSprite ground;
-    BoxSprite leftWall;
-    BoxSprite rightWall;
-    BoxSprite ceiling;
-    BoxSprite mapMain;
+    Texture2D fondo;
 
     // Bola
     b2Body* ball = nullptr;
@@ -39,10 +32,9 @@ private:
     BoxSprite palancaDerecha;
     b2RevoluteJoint* leftJoint = nullptr;
     b2RevoluteJoint* rightJoint = nullptr;
+    b2Body* flipperAnchor = nullptr; // <<< AÑADIDO: Ancla para los joints
 
-    // Carril derecho
-    BoxSprite laneInner;
-    BoxSprite laneOuter;
+    // <<< ELIMINADO: BoxSprite laneInner y laneOuter
 
     // Rampas
     BoxSprite rampLeft;

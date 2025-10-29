@@ -50,7 +50,6 @@ b2Body* Physics::CreateCircle(float x, float y, float radius, bool dynamic,
     fd.density = dynamic ? density : 0.0f;
     fd.friction = friction;
     fd.restitution = restitution;
-    
 
     body->CreateFixture(&fd);
     return body;
@@ -96,3 +95,30 @@ b2Body* Physics::CreatePolygon(const b2Vec2* vertices, int count, float friction
     body->CreateFixture(&fd);
     return body;
 }
+
+// <<< AÑADIDO: Implementación de CreateChain al final del fichero
+b2Body* Physics::CreateChain(const b2Vec2* vertices, int count, float friction, float restitution) {
+    b2BodyDef bd;
+    bd.type = b2_staticBody;
+    b2Body* body = world->CreateBody(&bd);
+
+    // Convertir píxeles a metros
+    b2Vec2* meters_vertices = new b2Vec2[count];
+    for (int i = 0; i < count; ++i) {
+        meters_vertices[i].Set(PIXEL_TO_METERS(vertices[i].x), PIXEL_TO_METERS(vertices[i].y));
+    }
+
+    // Crear un "Loop" (cadena cerrada) en lugar de un polígono
+    b2ChainShape shape;
+    shape.CreateLoop(meters_vertices, count);
+    delete[] meters_vertices; // liberar memoria
+
+    b2FixtureDef fd;
+    fd.shape = &shape;
+    fd.density = 0.0f;
+    fd.friction = friction;
+    fd.restitution = restitution;
+    body->CreateFixture(&fd);
+    return body;
+}
+// <<< NO HAY NINGUNA LLAVE '}' EXTRA AQUÍ AL FINAL
