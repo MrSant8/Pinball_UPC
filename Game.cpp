@@ -51,13 +51,13 @@ Game::Game(Physics* p) : physics(p) {
     ball = physics->CreateCircle(345.0f, 600.0f, ballRadius, true, 1.0f, 0.2f, 0.8f);
 
     // === Flippers ===
-    palancaIzquierda.w = 80.0f;  palancaIzquierda.h = 18.0f;
-    palancaDerecha.w = 80.0f;  palancaDerecha.h = 18.0f;
+    palancaIzquierda.w = 50.0f;  palancaIzquierda.h = 10.0f;
+    palancaDerecha.w = 50.0f;  palancaDerecha.h = 10.0f;
 
     // <<< CAMBIADO: Coordenadas de los flippers para que encajen en el mapa (dentro de 377x635)
-    float yFlipper = 585.0f;
-    float xLeft = 145.0f;
-    float xRight = 195.0f;
+    float yFlipper = 605.0f;//num PETIT -> flippers DALT, num GRAN -> flippers BAIX
+    float xLeft = 131.0f;    //num GRAN -> DRETA
+    float xRight = 209.0f;   //num PETIT -> ESQUERRA
 
     palancaIzquierda.body = physics->CreateBox(xLeft, yFlipper, palancaIzquierda.w, palancaIzquierda.h, true);
     palancaDerecha.body = physics->CreateBox(xRight, yFlipper, palancaDerecha.w, palancaDerecha.h, true);
@@ -75,6 +75,10 @@ Game::Game(Physics* p) : physics(p) {
         flipperAnchor, palancaIzquierda.body, leftAnchorX, yFlipper, lower, upper, true, -8.0f, 120.0f);
     rightJoint = physics->CreateRevoluteJoint(
         flipperAnchor, palancaDerecha.body, rightAnchorX, yFlipper, lower, upper, true, 8.0f, 120.0f);
+
+
+    
+    
 
     // === Rampas ===
     // !!! ADVERTENCIA: Estas coordenadas (720, 100) están fuera de la pantalla (377x635)
@@ -170,6 +174,12 @@ void Game::Draw() {
     // === Fondo 1:1 ===
     // <<< CAMBIADO: Se usa DrawTexture (1:1) en lugar de DrawTexturePro (estirado)
     DrawTexture(fondo, 0, 0, WHITE);
+
+    DrawBoxRot(palancaIzquierda, RED);
+    DrawBoxRot(palancaDerecha, RED);
+
+
+
 
     // === Objetos físicos ===
     // <<< ELIMINADO: Dibujo de ground, ceiling, leftWall, rightWall, laneInner, laneOuter
