@@ -6,31 +6,116 @@ static inline float RadToDeg(float r) { return r * (180.0f / 3.14159265f); }
 
 Game::Game(Physics* p) : physics(p) {
     // === Cargar imagen de fondo ===
-    // <<< Asegúrate de que el nombre es correcto (mapa.jpg o mapa.png)
+    // Nnombre es correcto (mapa.png)
     fondo = LoadTexture("Assets/mapa.png");
 
-    // === Paredes del Pinball (desde mapa_coords.txt) ===
-    // <<< REEMPLAZADO: Todas las paredes viejas (ground, leftWall...) se borran
-    // <<< y se reemplazan por este bloque
-// === Paredes del Pinball (desde mapa_coords.txt) ===
+ 
+// === Paredes del Pinball (mapa_coords.txt) ===
     {
-        // <<< CAMBIADO: Tamaño del array a 142
-        int wallCoords[142] = {
-            361, 634, 362, 158, 358, 145, 354, 132, 350, 120, 331, 80,
-            303, 53, 287, 39, 256, 23, 222, 16, 204, 13, 174, 12,
-            136, 18, 105, 31, 87, 41, 65, 61, 51, 75, 44, 83,
-            40, 92, 35, 99, 34, 108, 30, 115, 27, 124, 25, 132,
-            22, 147, 20, 157, 20, 172, 21, 201, 23, 218, 34, 255,
-            54, 307, 77, 368, 73, 379, 83, 388, 84, 395, 45, 433,
-            36, 435, 30, 425, 25, 426, 25, 580, 34, 587, 42, 588,
-            48, 583, 56, 583, 104, 607, 104, 634, 235, 633, 235, 608,
-            291, 580, 301, 588, 311, 590, 320, 581, 318, 456, 303, 448,
-            288, 440, 304, 393, 319, 347, 320, 188, 303, 174, 288, 188,
-            274, 188, 240, 154, 239, 104, 266, 75, 282, 77, 308, 103,
-            319, 127, 330, 152, 330, 634, 359, 635, 363, 160
-        };
+        // Tamaño del array 142
+  int wallCoords[198] = {
+	358, 655,
+	358, 448,
+	358, 412,
+	358, 171,
+	356, 157,
+	354, 145,
+	352, 135,
+	350, 129,
+	346, 119,
+	344, 114,
+	342, 110,
+	338, 101,
+	336, 97,
+	331, 89,
+	328, 85,
+	324, 82,
+	320, 77,
+	316, 73,
+	310, 67,
+	304, 62,
+	299, 58,
+	293, 52,
+	285, 47,
+	266, 38,
+	253, 32,
+	243, 29,
+	219, 24,
+	204, 22,
+	173, 22,
+	156, 25,
+	146, 26,
+	135, 29,
+	128, 32,
+	115, 37,
+	110, 39,
+	104, 41,
+	98, 44,
+	89, 49,
+	83, 52,
+	79, 56,
+	75, 60,
+	70, 64,
+	64, 71,
+	59, 76,
+	55, 80,
+	49, 87,
+	41, 100,
+	37, 109,
+	29, 123,
+	24, 143,
+	21, 160,
+	20, 211,
+	21, 221,
+	23, 231,
+	34, 263,
+	42, 285,
+	71, 365,
+	78, 379,
+	77, 385,
+	74, 389,
+	84, 398,
+	84, 405,
+	44, 445,
+	38, 445,
+	26, 436,
+	26, 591,
+	33, 599,
+	44, 599,
+	50, 593,
+	57, 593,
+	104, 619,
+	104, 654,
+	236, 654,
+	236, 618,
+	289, 591,
+	294, 591,
+	301, 599,
+	313, 599,
+	320, 591,
+	320, 467,
+	288, 452,
+	288, 447,
+	320, 359,
+	320, 197,
+	307, 184,
+	301, 184,
+	288, 197,
+	273, 197,
+	240, 164,
+	240, 115,
+	267, 87,
+	282, 87,
+	308, 113,
+	318, 137,
+	322, 137,
+	330, 152,
+	332, 161,
+	332, 655,
+	358, 655
+};
 
-        // <<< CAMBIADO: Número de vértices a 71 (142 / 2)
+        // Vértices a 71 (142 / 2)
         const int numVertices = 71;
 
         b2Vec2 wallVertices[numVertices];
@@ -54,7 +139,7 @@ Game::Game(Physics* p) : physics(p) {
     palancaIzquierda.w = 50.0f;  palancaIzquierda.h = 10.0f;
     palancaDerecha.w = 50.0f;  palancaDerecha.h = 10.0f;
 
-    // <<< CAMBIADO: Coordenadas de los flippers para que encajen en el mapa (dentro de 377x635)
+    // Coordenadas de los flippers para que encajen en el mapa
     float yFlipper = 605.0f;//num PETIT -> flippers DALT, num GRAN -> flippers BAIX
     float xLeft = 131.0f;    //num GRAN -> DRETA
     float xRight = 209.0f;   //num PETIT -> ESQUERRA
@@ -70,7 +155,7 @@ Game::Game(Physics* p) : physics(p) {
 
     float lower = -30.0f, upper = 30.0f;
 
-    // <<< CAMBIADO: Se usa 'flipperAnchor' en lugar de 'ground.body'
+    // Se usa 'flipperAnchor' en lugar de 'ground.body'
     leftJoint = physics->CreateRevoluteJoint(
         flipperAnchor, palancaIzquierda.body, leftAnchorX, yFlipper, lower, upper, true, -8.0f, 120.0f);
     rightJoint = physics->CreateRevoluteJoint(
@@ -81,24 +166,20 @@ Game::Game(Physics* p) : physics(p) {
     
 
     // === Rampas ===
-    // !!! ADVERTENCIA: Estas coordenadas (720, 100) están fuera de la pantalla (377x635)
     rampLeft.w = 120.0f; rampLeft.h = 12.0f;
     rampLeft.body = physics->CreateBox(720.0f, 100.0f, rampLeft.w, rampLeft.h, false);
     rampLeft.body->SetTransform(rampLeft.body->GetPosition(), 45);
 
-    // !!! ADVERTENCIA: Estas coordenadas (540, 200) están fuera de la pantalla
     rampRight.w = 120.0f; rampRight.h = 12.0f;
     rampRight.body = physics->CreateBox(540.0f, 200.0f, rampRight.w, rampRight.h, false);
 
     // === Postes ===
-    // !!! ADVERTENCIA: Coordenadas (470, 280) y (530, 320) están fuera de la pantalla
     posts[0] = physics->CreateCircle(270.0f, 320.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
     posts[1] = physics->CreateCircle(330.0f, 280.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
     posts[2] = physics->CreateCircle(470.0f, 280.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
     posts[3] = physics->CreateCircle(530.0f, 320.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
 
     // === Bumpers ===
-    // !!! ADVERTENCIA: Coordenadas (380, 160) y (450, 240) están fuera de la pantalla
     bumpers[0] = physics->CreateCircle(380.0f, 160.0f, bumperRadius, false, 0.0f, 0.3f, 1.0f);
     bumpers[1] = physics->CreateCircle(450.0f, 240.0f, bumperRadius, false, 0.0f, 0.3f, 1.0f);
     bumpers[2] = physics->CreateCircle(310.0f, 230.0f, bumperRadius, false, 0.0f, 0.3f, 1.0f);
@@ -110,24 +191,19 @@ Game::~Game() {
 
 void Game::Update() {
     // Colocar bola en el carril
-    // <<< CAMBIADO: Coordenadas ajustadas a la nueva pantalla
     if (IsKeyPressed(KEY_B)) {
-        ball->SetTransform(b2Vec2(PIXEL_TO_METERS(345.0f), PIXEL_TO_METERS(600.0f)), 0.0f);       
+        ball->SetTransform(b2Vec2(PIXEL_TO_METERS(340.0f), PIXEL_TO_METERS(600.0f)), 0.0f);
         ball->SetLinearVelocity(b2Vec2_zero);
         ball->SetAngularVelocity(0.0f);
         ball->SetAwake(true);
     }
 
     // Lanzar bola (espacio)
-    // <<< CAMBIADO: Lógica del carril ajustada a la nueva pantalla
     if (IsKeyPressed(KEY_SPACE)) {
         b2Vec2 pos = ball->GetPosition();
         float x = METERS_TO_PIXELS(pos.x);
         float y = METERS_TO_PIXELS(pos.y);
 
-        // CAMBIA ESTO:
-        // bool enCarril = (x > 290.0f && x < 330.0f && y > 400.0f); // (Esto también estaba mal)
-        // POR ESTO (comprueba si está en el carril derecho):
         bool enCarril = (x > 332.0f && x < 358.0f && y > 400.0f);
 
         if (enCarril)
@@ -135,9 +211,8 @@ void Game::Update() {
     }
 
     // Reset de bola
-    // <<< CAMBIADO: Coordenadas de reseteo ajustadas (centro-arriba)
     if (IsKeyPressed(KEY_R)) {
-        ball->SetTransform(b2Vec2(PIXEL_TO_METERS(188.0f), PIXEL_TO_METERS(120.0f)), 0.0f);
+        ball->SetTransform(b2Vec2(PIXEL_TO_METERS(340.0f), PIXEL_TO_METERS(600.0f)), 0.0f);
         ball->SetLinearVelocity(b2Vec2_zero);
         ball->SetAngularVelocity(0.0f);
     }

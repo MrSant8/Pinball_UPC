@@ -24,10 +24,8 @@ public:
         bool enableMotor, float motorSpeedRad, float maxMotorTorque
     );
 
-    // Versión única y correcta de CreatePolygon
     b2Body* CreatePolygon(const b2Vec2* vertices, int count, float friction = 0.3f, float restitution = 0.1f);
 
-    // <<< AÑADIDO: Nueva función para crear cadenas de vértices (evita el error abort())
     b2Body* CreateChain(const b2Vec2* vertices, int count, float friction = 0.3f, float restitution = 0.1f);
 
     b2World* GetWorld() const { return world; }

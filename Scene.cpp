@@ -10,40 +10,6 @@ Scene::~Scene() {
 }
 
 void Scene::CreateInitialScene() {
-    // Techo para que la bola no se escape por arriba.
-    physics->CreateBox(400, 5, 800, 10, false);
-
-    // 1. Paredes, curvas y guías
-    {
-        b2Vec2 left_lower[] = { {55, 600}, {55, 300}, {100, 450}, {100, 500}, {250, 550}, {260, 550} };
-        physics->CreatePolygon(left_lower, 6, 0.2f, 0.4f);
-        b2Vec2 left_upper[] = { {55, 300}, {55, 170}, {75, 120}, {115, 75}, {170, 45}, {250, 25}, {350, 25}, {350, 60} };
-        leftWall = physics->CreatePolygon(left_upper, 8, 0.2f, 0.4f);
-
-        b2Vec2 right_lower[] = { {745, 600}, {745, 300}, {700, 450}, {700, 500}, {550, 550}, {540, 550} };
-        physics->CreatePolygon(right_lower, 6, 0.2f, 0.4f);
-        b2Vec2 right_upper[] = { {745, 300}, {745, 170}, {725, 120}, {685, 75}, {630, 45}, {550, 25}, {450, 25}, {450, 60} };
-        rightWall = physics->CreatePolygon(right_upper, 8, 0.2f, 0.4f);
-
-        // Guía curva para la salida de la bola.
-        b2Vec2 launcher_guide[] = { {705, 150}, {680, 120}, {680, 150}, {705, 180} };
-        physics->CreatePolygon(launcher_guide, 4, 0.2f, 0.8f);
-
-        b2Vec2 laneVertices[] = { {705, 180}, {705, 600}, {725, 600}, {725, 150} };
-        physics->CreatePolygon(laneVertices, 4);
-
-        b2Vec2 leftGuide[] = { {55, 400}, {120, 480}, {120, 450}, {85, 400} };
-        physics->CreatePolygon(leftGuide, 4);
-        b2Vec2 rightGuide[] = { {745, 400}, {680, 480}, {680, 450}, {715, 400} };
-        physics->CreatePolygon(rightGuide, 4);
-
-        // Suelo para el carril de lanzamiento (evita el "Game Over" instantáneo).
-        physics->CreateBox(765, 595, 40, 10, false);
-    }
-
-    // 2. Slingshots (los triángulos que rebotan)
-    leftSlingshot = physics->CreatePolygon(new b2Vec2[3]{ {100, 450}, {100, 500}, {250, 550} }, 3, 0.2f, 1.2f);
-    rightSlingshot = physics->CreatePolygon(new b2Vec2[3]{ {700, 450}, {700, 500}, {550, 550} }, 3, 0.2f, 1.2f);
 
     // 3. Bumpers (obstáculos circulares)
     bumpers[0] = physics->CreateCircle(400, 150, bumperRadius, false, 0, 0.1f, 1.5f);

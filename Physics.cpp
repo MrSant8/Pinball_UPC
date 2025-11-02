@@ -96,7 +96,6 @@ b2Body* Physics::CreatePolygon(const b2Vec2* vertices, int count, float friction
     return body;
 }
 
-// <<< AÑADIDO: Implementación de CreateChain al final del fichero
 b2Body* Physics::CreateChain(const b2Vec2* vertices, int count, float friction, float restitution) {
     b2BodyDef bd;
     bd.type = b2_staticBody;
@@ -121,4 +120,4 @@ b2Body* Physics::CreateChain(const b2Vec2* vertices, int count, float friction, 
     body->CreateFixture(&fd);
     return body;
 }
-// <<< NO HAY NINGUNA LLAVE '}' EXTRA AQUÍ AL FINAL
+ 

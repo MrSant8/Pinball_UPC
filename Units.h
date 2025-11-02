@@ -1,8 +1,6 @@
 #pragma once
 
 // Conversión entre píxeles y metros
-// Box2D trabaja en "metros", raylib en "pixeles".
-// Definimos macros para convertir entre ambos.
 #define PIXELS_PER_METER 50.0f          // 1 metro = 50 píxeles
 #define METER_PER_PIXEL (1.0f / PIXELS_PER_METER)
 

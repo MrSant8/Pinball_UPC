@@ -32,9 +32,7 @@ private:
     BoxSprite palancaDerecha;
     b2RevoluteJoint* leftJoint = nullptr;
     b2RevoluteJoint* rightJoint = nullptr;
-    b2Body* flipperAnchor = nullptr; // <<< AÑADIDO: Ancla para los joints
-
-    // <<< ELIMINADO: BoxSprite laneInner y laneOuter
+    b2Body* flipperAnchor = nullptr; 
 
     // Rampas
     BoxSprite rampLeft;
