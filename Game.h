@@ -45,7 +45,7 @@ private:
 
     static const int kNumBumpers = 3;
     b2Body* bumpers[kNumBumpers];
-    float bumperRadius = 18.0f;
+    float bumperRadius = 24.0f;
 
     // Dibujo auxiliar
     void DrawBoxAA(const BoxSprite& bx, Color c);

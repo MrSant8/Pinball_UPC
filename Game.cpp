@@ -13,110 +13,113 @@ Game::Game(Physics* p) : physics(p) {
 // === Paredes del Pinball (mapa_coords.txt) ===
     {
         // Tamaño del array 142
-  int wallCoords[198] = {
-	358, 655,
-	358, 448,
-	358, 412,
-	358, 171,
-	356, 157,
-	354, 145,
-	352, 135,
-	350, 129,
-	346, 119,
-	344, 114,
-	342, 110,
-	338, 101,
-	336, 97,
-	331, 89,
-	328, 85,
-	324, 82,
-	320, 77,
-	316, 73,
-	310, 67,
-	304, 62,
-	299, 58,
-	293, 52,
-	285, 47,
-	266, 38,
-	253, 32,
-	243, 29,
-	219, 24,
-	204, 22,
-	173, 22,
-	156, 25,
-	146, 26,
-	135, 29,
-	128, 32,
-	115, 37,
-	110, 39,
-	104, 41,
-	98, 44,
-	89, 49,
-	83, 52,
-	79, 56,
-	75, 60,
-	70, 64,
-	64, 71,
-	59, 76,
-	55, 80,
-	49, 87,
-	41, 100,
-	37, 109,
-	29, 123,
-	24, 143,
-	21, 160,
-	20, 211,
-	21, 221,
-	23, 231,
-	34, 263,
-	42, 285,
-	71, 365,
-	78, 379,
-	77, 385,
-	74, 389,
-	84, 398,
-	84, 405,
-	44, 445,
-	38, 445,
-	26, 436,
-	26, 591,
-	33, 599,
-	44, 599,
-	50, 593,
-	57, 593,
-	104, 619,
-	104, 654,
-	236, 654,
-	236, 618,
-	289, 591,
-	294, 591,
-	301, 599,
-	313, 599,
-	320, 591,
-	320, 467,
-	288, 452,
-	288, 447,
-	320, 359,
-	320, 197,
-	307, 184,
-	301, 184,
-	288, 197,
-	273, 197,
-	240, 164,
-	240, 115,
-	267, 87,
-	282, 87,
-	308, 113,
-	318, 137,
-	322, 137,
-	330, 152,
-	332, 161,
-	332, 655,
-	358, 655
-};
+// Pivot 0, 0
+        int wallCoords[200] = {
+            358, 654,
+            358, 448,
+            358, 412,
+            358, 171,
+            356, 157,
+            354, 145,
+            352, 135,
+            350, 129,
+            346, 119,
+            344, 114,
+            342, 110,
+            338, 101,
+            336, 97,
+            331, 89,
+            328, 85,
+            324, 82,
+            320, 77,
+            316, 73,
+            310, 67,
+            304, 62,
+            299, 58,
+            293, 52,
+            285, 47,
+            266, 38,
+            253, 32,
+            243, 29,
+            219, 24,
+            204, 22,
+            173, 22,
+            156, 25,
+            146, 26,
+            135, 29,
+            128, 32,
+            115, 37,
+            110, 39,
+            104, 41,
+            98, 44,
+            89, 49,
+            83, 52,
+            79, 56,
+            75, 60,
+            70, 64,
+            64, 71,
+            59, 76,
+            55, 80,
+            49, 87,
+            41, 100,
+            37, 109,
+            29, 123,
+            24, 143,
+            21, 160,
+            20, 211,
+            21, 221,
+            23, 231,
+            34, 263,
+            42, 285,
+            71, 365,
+            78, 379,
+            77, 385,
+            74, 389,
+            84, 398,
+            84, 405,
+            44, 445,
+            38, 445,
+            26, 436,
+            26, 591,
+            33, 599,
+            44, 599,
+            50, 593,
+            57, 593,
+            104, 619,
+            104, 654,
+            237, 654,
+            237, 618,
+            289, 591,
+            294, 591,
+            301, 599,
+            313, 599,
+            320, 591,
+            320, 467,
+            288, 452,
+            288, 447,
+            320, 359,
+            320, 197,
+            307, 184,
+            301, 184,
+            288, 197,
+            273, 197,
+            240, 164,
+            240, 115,
+            267, 87,
+            282, 87,
+            308, 113,
+            318, 137,
+            322, 137,
+            332, 162,
+            332, 412,
+            332, 655,
+            346, 655,
+            362, 655
+        };
+
 
         // Vértices a 71 (142 / 2)
-        const int numVertices = 71;
+        const int numVertices = 100;
 
         b2Vec2 wallVertices[numVertices];
         for (int i = 0; i < numVertices; ++i) {
@@ -131,15 +134,16 @@ Game::Game(Physics* p) : physics(p) {
 
 
     // === Bola ===
-    ballRadius = 10.0f;
+    ballRadius = 7.0f;
 
     ball = physics->CreateCircle(345.0f, 600.0f, ballRadius, true, 1.0f, 0.2f, 0.8f);
 
     // === Flippers ===
-    palancaIzquierda.w = 50.0f;  palancaIzquierda.h = 10.0f;
-    palancaDerecha.w = 50.0f;  palancaDerecha.h = 10.0f;
+    palancaIzquierda.w = 50.0f;  
+    palancaIzquierda.h = 10.0f;
+    palancaDerecha.w = 50.0f;  
+    palancaDerecha.h = 10.0f;
 
-    // Coordenadas de los flippers para que encajen en el mapa
     float yFlipper = 605.0f;//num PETIT -> flippers DALT, num GRAN -> flippers BAIX
     float xLeft = 131.0f;    //num GRAN -> DRETA
     float xRight = 209.0f;   //num PETIT -> ESQUERRA
@@ -155,15 +159,10 @@ Game::Game(Physics* p) : physics(p) {
 
     float lower = -30.0f, upper = 30.0f;
 
-    // Se usa 'flipperAnchor' en lugar de 'ground.body'
     leftJoint = physics->CreateRevoluteJoint(
         flipperAnchor, palancaIzquierda.body, leftAnchorX, yFlipper, lower, upper, true, -8.0f, 120.0f);
     rightJoint = physics->CreateRevoluteJoint(
         flipperAnchor, palancaDerecha.body, rightAnchorX, yFlipper, lower, upper, true, 8.0f, 120.0f);
-
-
-    
-    
 
     // === Rampas ===
     rampLeft.w = 120.0f; rampLeft.h = 12.0f;
@@ -179,10 +178,11 @@ Game::Game(Physics* p) : physics(p) {
     posts[2] = physics->CreateCircle(470.0f, 280.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
     posts[3] = physics->CreateCircle(530.0f, 320.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
 
-    // === Bumpers ===
-    bumpers[0] = physics->CreateCircle(380.0f, 160.0f, bumperRadius, false, 0.0f, 0.3f, 1.0f);
-    bumpers[1] = physics->CreateCircle(450.0f, 240.0f, bumperRadius, false, 0.0f, 0.3f, 1.0f);
-    bumpers[2] = physics->CreateCircle(310.0f, 230.0f, bumperRadius, false, 0.0f, 0.3f, 1.0f);
+    // === Circulitos ===
+    float centerX = 377.0f / 2.0f; 
+    bumpers[0] = physics->CreateCircle(173.0f, 219.4f, bumperRadius, false, 0.0f, 0.3f, 1.0f); // Bumper arriba, no tocar en teoria esta bien :)
+    bumpers[1] = physics->CreateCircle(126.0f, 295.5f, bumperRadius, false, 0.0f, 0.3f, 1.0f); // Bumper izquierdo, no tocar en teoria esta bien :)
+    bumpers[2] = physics->CreateCircle(220.0f, 295.5f, bumperRadius, false, 0.0f, 0.3f, 1.0f); // Bumper derecho, no tocar en teoria esta bien :)
 }
 
 Game::~Game() {
@@ -207,7 +207,7 @@ void Game::Update() {
         bool enCarril = (x > 332.0f && x < 358.0f && y > 400.0f);
 
         if (enCarril)
-            ball->ApplyLinearImpulseToCenter(b2Vec2(0.0f, -6.0f), true);
+            ball->ApplyLinearImpulseToCenter(b2Vec2(0.0f, -40.0f), true);
     }
 
     // Reset de bola
@@ -257,16 +257,20 @@ void Game::Draw() {
 
 
     // === Objetos físicos ===
-    // <<< ELIMINADO: Dibujo de ground, ceiling, leftWall, rightWall, laneInner, laneOuter
 
     DrawBoxAA(rampLeft, RED);
     DrawBoxAA(rampRight, LIGHTGRAY);
 
-    // <<< ELIMINADO: Dibujo de palancaIzquierda y palancaDerecha (para que se vea el fondo)
+   /* for (int i = 0; i < kNumBumpers; ++i) {
+        if (bumpers[i]) {
+            b2Vec2 p = bumpers[i]->GetPosition();
+            DrawCircle((int)METERS_TO_PIXELS(p.x), (int)METERS_TO_PIXELS(p.y), bumperRadius, YELLOW);
+        }
+    }*/
 
     // Bola
     b2Vec2 pb = ball->GetPosition();
     DrawCircle((int)METERS_TO_PIXELS(pb.x), (int)METERS_TO_PIXELS(pb.y), ballRadius, WHITE);
 
-    DrawText("Development Build 0.29.10", 8, 8, 16, RED);
+    DrawText("Development Build 0.02.11", 8, 8, 16, RED);
 }
