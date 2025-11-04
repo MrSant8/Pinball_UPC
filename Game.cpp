@@ -172,6 +172,50 @@ Game::Game(Physics* p) : physics(p) {
     rampRight.w = 120.0f; rampRight.h = 12.0f;
     rampRight.body = physics->CreateBox(540.0f, 200.0f, rampRight.w, rampRight.h, false);
 
+
+    // poste vertial
+    posteVertical1.w = 20.0f;
+    posteVertical1.h = 90.0f;
+    posteVertical1.body = physics->CreateBox(200.0f, 310.0f, posteVertical1.w, posteVertical1.h, false);
+
+    //Poste derecha medio del mapa ( el que tiene agujero arriba pegado ), falta editar para que se parecza a un 0
+    // color blanco editar abajo en DRAW para eliminar el color y dejar el box coollider
+    
+    posteVertical5.w = 20.0f;
+    posteVertical5.h = 90.0f;
+    posteVertical5.body = physics->CreateBox(200.0f, 350.0f, posteVertical5.w, posteVertical5.h, false);
+
+    // postes 3 juntos arriba
+    posteVertical2.w = 8.0f;
+    posteVertical2.h = 50.0f;
+    posteVertical2.body = physics->CreateBox(138.8f, 140.0f, posteVertical2.w, posteVertical2.h, false);
+
+
+    posteVertical3.w = 8.0f;
+    posteVertical3.h = 50.0f;
+    posteVertical3.body = physics->CreateBox(174.8f, 140.0f, posteVertical3.w, posteVertical2.h, false);
+
+
+    posteVertical4.w = 8.0f;
+    posteVertical4.h = 50.0f;
+    posteVertical4.body = physics->CreateBox(210.8f, 140.0f, posteVertical4.w, posteVertical4.h, false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // === Postes ===
     posts[0] = physics->CreateCircle(270.0f, 320.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
     posts[1] = physics->CreateCircle(330.0f, 280.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
@@ -268,7 +312,12 @@ void Game::Draw() {
     DrawBoxRot(palancaDerecha, RED);
 
 
-
+    
+    DrawBoxAA(posteVertical1, LIGHTGRAY); // Dibuja el poste
+    DrawBoxAA(posteVertical2, WHITE); // Dibuja el poste
+    DrawBoxAA(posteVertical3, RED); // Dibuja el poste
+    DrawBoxAA(posteVertical4, GREEN); // Dibuja el poste
+    DrawBoxAA(posteVertical5, YELLOW); // Dibuja el poste
 
     // === Objetos físicos ===
 

@@ -46,6 +46,13 @@ private:
     BoxSprite rampLeft;
     BoxSprite rampRight;
 
+    // test de 0 (como la pelota pero alargado)
+	BoxSprite posteVertical1;
+    BoxSprite posteVertical2;
+    BoxSprite posteVertical3;
+    BoxSprite posteVertical4;
+    BoxSprite posteVertical5;
+
     // Postes y bumpers
     static const int kNumPosts = 4;
     b2Body* posts[kNumPosts];
