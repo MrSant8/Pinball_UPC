@@ -16,6 +16,14 @@ public:
 
     void Update();
     void Draw();
+    void OnCollision(b2Body* bodyA, b2Body* bodyB);
+    void ScoreRefresh();
+
+    int score = 0;
+    int highScore = 0;
+    int pastScore = 0;
+
+    int remainingBalls = 3;
 
 private:
     Physics* physics = nullptr;

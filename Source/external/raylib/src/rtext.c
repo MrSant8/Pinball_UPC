@@ -1111,11 +1111,8 @@ bool ExportFontAsCode(Font font, const char *fileName)
 // NOTE: Uses default font
 void DrawFPS(int posX, int posY)
 {
-    Color color = LIME;                         // Good FPS
+    Color color = YELLOW;
     int fps = GetFPS();
-
-    if ((fps < 30) && (fps >= 15)) color = ORANGE;  // Warning FPS
-    else if (fps < 15) color = RED;             // Low FPS
 
     DrawText(TextFormat("%2i FPS", fps), posX, posY, 20, color);
 }

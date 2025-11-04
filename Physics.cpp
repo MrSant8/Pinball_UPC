@@ -120,4 +120,18 @@ b2Body* Physics::CreateChain(const b2Vec2* vertices, int count, float friction, 
     body->CreateFixture(&fd);
     return body;
 }
+
+void Physics::BeginContact(b2Contact* contact)
+{
+    b2Body* a = (b2Body*)contact->GetFixtureA()->GetBody()->GetUserData().pointer;
+    b2Body* b = (b2Body*)contact->GetFixtureB()->GetBody()->GetUserData().pointer;
+
+    if (a && a->listener) {
+        a->listener->OnCollision(a, b);
+    }
+
+    if (b && b->listener) {
+        b->listener->OnCollision(b, a);
+    }
+}
  

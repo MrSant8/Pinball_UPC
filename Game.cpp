@@ -183,6 +183,9 @@ Game::Game(Physics* p) : physics(p) {
     bumpers[0] = physics->CreateCircle(173.0f, 219.4f, bumperRadius, false, 0.0f, 0.3f, 1.0f); // Bumper arriba, no tocar en teoria esta bien :)
     bumpers[1] = physics->CreateCircle(126.0f, 295.5f, bumperRadius, false, 0.0f, 0.3f, 1.0f); // Bumper izquierdo, no tocar en teoria esta bien :)
     bumpers[2] = physics->CreateCircle(220.0f, 295.5f, bumperRadius, false, 0.0f, 0.3f, 1.0f); // Bumper derecho, no tocar en teoria esta bien :)
+    bumpers[0]->SetType(b2_kinematicBody);
+    bumpers[1]->SetType(b2_kinematicBody);
+    bumpers[2]->SetType(b2_kinematicBody);
 }
 
 Game::~Game() {
@@ -222,6 +225,17 @@ void Game::Update() {
     if (IsKeyDown(KEY_RIGHT)) rightJoint->SetMotorSpeed(12.0f); else rightJoint->SetMotorSpeed(-8.0f);
 
     physics->Step();
+}
+
+void Game::OnCollision(b2Body* bodyA, b2Body* bodyB)
+{
+    score += 100;
+    
+    //audio
+
+    if (bodyA->GetType() == b2_kinematicBody) {
+        score += 1000;
+    }
 }
 
 // --- Funciones de Dibujo Auxiliares ---
@@ -272,5 +286,17 @@ void Game::Draw() {
     b2Vec2 pb = ball->GetPosition();
     DrawCircle((int)METERS_TO_PIXELS(pb.x), (int)METERS_TO_PIXELS(pb.y), ballRadius, WHITE);
 
-    DrawText("Development Build 0.02.11", 8, 8, 16, RED);
+    DrawFPS(10, 10);
+    DrawTextEx(GetFontDefault(), TextFormat("Score: %d", score), { 10, 30 }, 20, 1, YELLOW);
+    DrawTextEx(GetFontDefault(), TextFormat("HighScore: %d", highScore), { 10, 60 }, 20, 1, YELLOW);
+}
+
+void Game::ScoreRefresh() 
+{
+    pastScore = score;
+    if (score > highScore)
+    {
+        highScore = score;
+    }
+    score = 0;
 }
