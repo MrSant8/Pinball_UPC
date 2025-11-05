@@ -178,12 +178,12 @@ Game::Game(Physics* p) : physics(p) {
     flipperAnchor = physics->CreateBox(1, 1, 1, 1, false);
 
 
-    // === Bola ===
+    //Bola
 
     ballRadius = 7.0f;
     ball = physics->CreateCircle(345.0f, 600.0f, ballRadius, true, 1.0f, 0.2f, 0.8f);
 
-    // === Flippers ===
+    //Flippers
     palancaIzquierda.w = 50.0f;  
     palancaIzquierda.h = 10.0f;
     palancaDerecha.w = 50.0f;  
@@ -209,7 +209,7 @@ Game::Game(Physics* p) : physics(p) {
     rightJoint = physics->CreateRevoluteJoint(
         flipperAnchor, palancaDerecha.body, rightAnchorX, yFlipper, lower, upper, true, 8.0f, 120.0f);
 
-    // === Rampas ===
+    //Rampes 
     rampLeft.w = 120.0f; rampLeft.h = 12.0f;
     rampLeft.body = physics->CreateBox(720.0f, 100.0f, rampLeft.w, rampLeft.h, false);
     rampLeft.body->SetTransform(rampLeft.body->GetPosition(), 45);
@@ -218,23 +218,16 @@ Game::Game(Physics* p) : physics(p) {
     rampRight.body = physics->CreateBox(540.0f, 200.0f, rampRight.w, rampRight.h, false);
 
 
-    // poste vertial
+    //Poste vertial
     posteVertical1.w = 20.0f;
     posteVertical1.h = 90.0f;
     posteVertical1.body = physics->CreateBox(200.0f, 310.0f, posteVertical1.w, posteVertical1.h, false);
-
-    // Poste derecha medio del mapa ( el que tiene agujero arriba pegado ), falta editar para que se parecza a un 0
-    // color blanco editar abajo en DRAW para eliminar el color y dejar el box coollider
-    
-    // =========================================
-    // Editar linea 300 pa borrar los colores
-    // =========================================
 
     posteVertical5.w = 20.0f;
     posteVertical5.h = 90.0f;
     posteVertical5.body = physics->CreateBox(73.0f, 283.0f, posteVertical5.w, posteVertical5.h, false);
 
-    // postes 3 juntos arriba
+    //Postes 3 juntos arriba
     posteVertical2.w = 8.0f;
     posteVertical2.h = 50.0f;
     posteVertical2.body = physics->CreateBox(138.8f, 140.0f, posteVertical2.w, posteVertical2.h, false);
@@ -254,13 +247,13 @@ Game::Game(Physics* p) : physics(p) {
  
     
 
-    // === Postes ===
+    //Postes
     posts[0] = physics->CreateCircle(270.0f, 320.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
     posts[1] = physics->CreateCircle(330.0f, 280.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
     posts[2] = physics->CreateCircle(470.0f, 280.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
     posts[3] = physics->CreateCircle(530.0f, 320.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
 
-    // === Circulitos ===
+    //Circulitos
     float centerX = 377.0f / 2.0f; 
     bumpers[0] = physics->CreateCircle(173.0f, 219.4f, bumperRadius, false, 0.0f, 0.3f, 1.0f); // Bumper arriba, no tocar en teoria esta bien :)
     bumpers[1] = physics->CreateCircle(126.0f, 295.5f, bumperRadius, false, 0.0f, 0.3f, 1.0f); // Bumper izquierdo, no tocar en teoria esta bien :)
@@ -322,7 +315,7 @@ void Game::OnCollision(b2Body* bodyA, b2Body* bodyB)
     }
 }
 
-// --- Funciones de Dibujo Auxiliares ---
+//Funciones de Dibujo Auxiliares
 
 void Game::DrawBoxAA(const BoxSprite& bx, Color c) {
     b2Vec2 p = bx.body->GetPosition();
@@ -341,7 +334,7 @@ void Game::DrawBoxRot(const BoxSprite& bx, Color c) {
     DrawRectanglePro(rect, origin, angleDeg, c);
 }
 
-// --- Función Principal de Dibujo ---
+//Función Principal de Dibujo
 
 void Game::Draw() {
     DrawTexture(fondo, 0, 0, WHITE);
@@ -356,18 +349,11 @@ void Game::Draw() {
     DrawBoxAA(posteVertical3, RED); 
     DrawBoxAA(posteVertical4, GREEN); 
 
-    // === Objetos físicos ===
+    //Objetos físicos
     DrawBoxAA(rampLeft, RED);
     DrawBoxAA(rampRight, LIGHTGRAY);
 
-   /* for (int i = 0; i < kNumBumpers; ++i) {
-        if (bumpers[i]) {
-            b2Vec2 p = bumpers[i]->GetPosition();
-            DrawCircle((int)METERS_TO_PIXELS(p.x), (int)METERS_TO_PIXELS(p.y), bumperRadius, YELLOW);
-        }
-    }*/
-
-    // Bola
+    //Bola
     b2Vec2 pb = ball->GetPosition();
     DrawCircle((int)METERS_TO_PIXELS(pb.x), (int)METERS_TO_PIXELS(pb.y), ballRadius, WHITE);
 
