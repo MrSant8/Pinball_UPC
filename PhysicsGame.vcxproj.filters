@@ -47,9 +47,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Units.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Application.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -75,6 +72,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Source\Player1.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Units.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
