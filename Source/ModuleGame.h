@@ -25,5 +25,6 @@ public:
 public:
 
 	Texture2D mapa;
+	Texture2D circle;
 	
 };

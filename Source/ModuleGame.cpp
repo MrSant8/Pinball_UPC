@@ -63,7 +63,29 @@ private:
 };
 
 
+class Box : public PhysicEntity
+{
+public:
+	Box(ModulePhysics* physics, int _x, int _y, Module* _listener, Texture2D _texture)
+		: PhysicEntity(physics->CreateRectangle(_x, _y, 100, 50), _listener)
+		, texture(_texture)
+	{
 
+	}
+
+	void Update() override
+	{
+		int x, y;
+		body->GetPhysicPosition(x, y);
+		DrawTexturePro(texture, Rectangle{ 0, 0, (float)texture.width, (float)texture.height },
+			Rectangle{ (float)x, (float)y, (float)texture.width, (float)texture.height },
+			Vector2{ (float)texture.width / 2.0f, (float)texture.height / 2.0f }, body->GetRotation() * RAD2DEG, WHITE);
+	}
+
+private:
+	Texture2D texture;
+
+};
 
 
 
@@ -82,6 +104,7 @@ bool ModuleGame::Start()
 	bool ret = true;
 
 	mapa = LoadTexture("Assets/mapaHD.png");
+	circle = LoadTexture("Assets/bola.png");
 
 	return ret;
 }
@@ -100,7 +123,7 @@ update_status ModuleGame::Update()
 	DrawTexture(mapa, 0, 105, WHITE);
 
 	if (IsKeyPressed(KEY_ONE)) {
-		new Circle(App->physics, 20, 20, this);
+		new Circle(App->physics, 20, 20, this,circle);
 	}
 
 	return UPDATE_CONTINUE;
