@@ -77,7 +77,7 @@ PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
 	b2BodyDef body;
 	body.type = b2_dynamicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-	body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
+	//body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
 
 	b2Body* b = world->CreateBody(&body);
 	b2PolygonShape box;
@@ -90,8 +90,8 @@ PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
 	b->CreateFixture(&fixture);
 
 	pbody->body = b;
-	pbody->width = (int)(width * 0.5f);
-	pbody->height = (int)(height * 0.5f);
+	//pbody->width = (int)(width * 0.5f);
+	//pbody->height = (int)(height * 0.5f);
 
 	return pbody;
 }
@@ -118,8 +118,8 @@ PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int heig
 	b->CreateFixture(&fixture);
 
 	pbody->body = b;
-	pbody->width = width;
-	pbody->height = height;
+	//pbody->width = width;
+	//pbody->height = height;
 
 	return pbody;
 }
@@ -154,7 +154,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, const int* points, int size)
 	delete p;
 
 	pbody->body = b;
-	pbody->width = pbody->height = 0;
+	//pbody->width = pbody->height = 0;
 
 	return pbody;
 }
@@ -197,17 +197,17 @@ bool ModulePhysics::CleanUp()
 
 
 
-void ModulePhysics::BeginContact(b2Contact* contact)
-{
-	b2BodyUserData dataA = contact->GetFixtureA()->GetBody()->GetUserData();
-	b2BodyUserData dataB = contact->GetFixtureB()->GetBody()->GetUserData();
-
-	PhysBody* physA = (PhysBody*)dataA.pointer;
-	PhysBody* physB = (PhysBody*)dataB.pointer;
-
-	if (physA && physA->listener != NULL)
-		physA->listener->OnCollision(physA, physB);
-
-	if (physB && physB->listener != NULL)
-		physB->listener->OnCollision(physB, physA);
-}
+//void ModulePhysics::BeginContact(b2Contact* contact)
+//{
+//	b2BodyUserData dataA = contact->GetFixtureA()->GetBody()->GetUserData();
+//	b2BodyUserData dataB = contact->GetFixtureB()->GetBody()->GetUserData();
+//
+//	PhysBody* physA = (PhysBody*)dataA.pointer;
+//	PhysBody* physB = (PhysBody*)dataB.pointer;
+//
+//	if (physA && physA->listener != NULL)
+//		physA->listener->OnCollision(physA, physB);
+//
+//	if (physB && physB->listener != NULL)
+//		physB->listener->OnCollision(physB, physA);
+//}

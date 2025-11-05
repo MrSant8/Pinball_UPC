@@ -15,7 +15,7 @@ protected:
 		: body(_body)
 		, listener(_listener)
 	{
-		body->listener = listener;
+		//body->listener = listener;
 	}
 
 public:
