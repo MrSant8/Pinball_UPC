@@ -184,6 +184,7 @@ Game::Game(Physics* p) : physics(p) {
     ball = physics->CreateCircle(345.0f, 600.0f, ballRadius, true, 1.0f, 0.2f, 0.8f);
 
     // === Flippers ===
+
     palancaIzquierda.w = 50.0f;  
     palancaIzquierda.h = 10.0f;
     palancaDerecha.w = 50.0f;  
@@ -210,6 +211,7 @@ Game::Game(Physics* p) : physics(p) {
         flipperAnchor, palancaDerecha.body, rightAnchorX, yFlipper, lower, upper, true, 8.0f, 120.0f);
 
     // === Rampas ===
+
     rampLeft.w = 120.0f; rampLeft.h = 12.0f;
     rampLeft.body = physics->CreateBox(720.0f, 100.0f, rampLeft.w, rampLeft.h, false);
     rampLeft.body->SetTransform(rampLeft.body->GetPosition(), 45);
@@ -218,7 +220,7 @@ Game::Game(Physics* p) : physics(p) {
     rampRight.body = physics->CreateBox(540.0f, 200.0f, rampRight.w, rampRight.h, false);
 
 
-    // poste vertial
+    // === Poste Vertial ===
     posteVertical1.w = 20.0f;
     posteVertical1.h = 90.0f;
     posteVertical1.body = physics->CreateBox(200.0f, 310.0f, posteVertical1.w, posteVertical1.h, false);
@@ -352,9 +354,9 @@ void Game::Draw() {
     DrawTexture(bumperIzquierdoTexture, 0, 0, WHITE);
     DrawTexture(bumperDerechoTexture, 0, 0, WHITE);
 
-    DrawBoxAA(posteVertical2, WHITE); 
-    DrawBoxAA(posteVertical3, RED); 
-    DrawBoxAA(posteVertical4, GREEN); 
+    DrawBoxAA(posteVertical2, WHITE);
+    DrawBoxAA(posteVertical3, RED);
+    DrawBoxAA(posteVertical4, GREEN);
 
     // === Objetos físicos ===
     DrawBoxAA(rampLeft, RED);
