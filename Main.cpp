@@ -5,7 +5,7 @@
 int main() {
     InitWindow(377, 655, "Pinball");
 
-    SetTargetFPS(165);
+    SetTargetFPS(120);
 
     Physics physics;
     Game game(&physics);
