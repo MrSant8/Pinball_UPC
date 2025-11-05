@@ -221,6 +221,7 @@ Game::Game(Physics* p) : physics(p) {
 
 
     // === Poste Vertial ===
+
     posteVertical1.w = 20.0f;
     posteVertical1.h = 90.0f;
     posteVertical1.body = physics->CreateBox(200.0f, 310.0f, posteVertical1.w, posteVertical1.h, false);
@@ -236,7 +237,7 @@ Game::Game(Physics* p) : physics(p) {
     posteVertical5.h = 90.0f;
     posteVertical5.body = physics->CreateBox(73.0f, 283.0f, posteVertical5.w, posteVertical5.h, false);
 
-    // postes 3 juntos arriba
+    // === Postes 3 juntos arriba ===
     posteVertical2.w = 8.0f;
     posteVertical2.h = 50.0f;
     posteVertical2.body = physics->CreateBox(138.8f, 140.0f, posteVertical2.w, posteVertical2.h, false);
@@ -257,12 +258,14 @@ Game::Game(Physics* p) : physics(p) {
     
 
     // === Postes ===
+
     posts[0] = physics->CreateCircle(270.0f, 320.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
     posts[1] = physics->CreateCircle(330.0f, 280.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
     posts[2] = physics->CreateCircle(470.0f, 280.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
     posts[3] = physics->CreateCircle(530.0f, 320.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
 
     // === Circulitos ===
+
     float centerX = 377.0f / 2.0f; 
     bumpers[0] = physics->CreateCircle(173.0f, 219.4f, bumperRadius, false, 0.0f, 0.3f, 1.0f); // Bumper arriba, no tocar en teoria esta bien :)
     bumpers[1] = physics->CreateCircle(126.0f, 295.5f, bumperRadius, false, 0.0f, 0.3f, 1.0f); // Bumper izquierdo, no tocar en teoria esta bien :)
@@ -272,14 +275,17 @@ Game::Game(Physics* p) : physics(p) {
     bumpers[2]->SetType(b2_kinematicBody);
 }
 
-Game::~Game() {
+Game::~Game() 
+{
     UnloadTexture(fondo);
     UnloadTexture(bumperIzquierdoTexture);
     UnloadTexture(bumperDerechoTexture);
 }
 
-void Game::Update() {
+void Game::Update() 
+{
     // Colocar bola en el carril
+
     if (IsKeyPressed(KEY_B)) {
         ball->SetTransform(b2Vec2(PIXEL_TO_METERS(340.0f), PIXEL_TO_METERS(600.0f)), 0.0f);
         ball->SetLinearVelocity(b2Vec2_zero);
@@ -288,6 +294,7 @@ void Game::Update() {
     }
 
     // Lanzar bola (espacio)
+
     if (IsKeyPressed(KEY_SPACE)) {
         b2Vec2 pos = ball->GetPosition();
         float x = METERS_TO_PIXELS(pos.x);
@@ -300,6 +307,7 @@ void Game::Update() {
     }
 
     // Reset de bola
+
     if (IsKeyPressed(KEY_R)) {
         ball->SetTransform(b2Vec2(PIXEL_TO_METERS(340.0f), PIXEL_TO_METERS(600.0f)), 0.0f);
         ball->SetLinearVelocity(b2Vec2_zero);
@@ -307,6 +315,7 @@ void Game::Update() {
     }
 
     // Flippers
+
     if (IsKeyDown(KEY_LEFT))  leftJoint->SetMotorSpeed(-12.0f); else leftJoint->SetMotorSpeed(8.0f);
     if (IsKeyDown(KEY_RIGHT)) rightJoint->SetMotorSpeed(12.0f); else rightJoint->SetMotorSpeed(-8.0f);
 
@@ -317,7 +326,7 @@ void Game::OnCollision(b2Body* bodyA, b2Body* bodyB)
 {
     score += 100;
     
-    //audio
+    //Audio
 
     if (bodyA->GetType() == b2_kinematicBody) {
         score += 1000;
@@ -359,6 +368,7 @@ void Game::Draw() {
     DrawBoxAA(posteVertical4, GREEN);
 
     // === Objetos físicos ===
+
     DrawBoxAA(rampLeft, RED);
     DrawBoxAA(rampRight, LIGHTGRAY);
 
@@ -369,7 +379,8 @@ void Game::Draw() {
         }
     }*/
 
-    // Bola
+    // === Bola ===
+
     b2Vec2 pb = ball->GetPosition();
     DrawCircle((int)METERS_TO_PIXELS(pb.x), (int)METERS_TO_PIXELS(pb.y), ballRadius, WHITE);
 
