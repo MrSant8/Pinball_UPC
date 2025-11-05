@@ -24,5 +24,6 @@ public:
 
 public:
 
+	Texture2D mapa;
 	
 };
