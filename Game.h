@@ -53,6 +53,12 @@ private:
     BoxSprite posteVertical4;
     BoxSprite posteVertical5;
 
+
+    Texture2D bumperIzquierdoTexture;
+    b2Body* bumperIzquierdoBody;
+    Texture2D bumperDerechoTexture;
+	b2Body* bumperDerechoBody;
+
     // Postes y bumpers
     static const int kNumPosts = 4;
     b2Body* posts[kNumPosts];
@@ -65,4 +71,5 @@ private:
     // Dibujo auxiliar
     void DrawBoxAA(const BoxSprite& bx, Color c);
     void DrawBoxRot(const BoxSprite& bx, Color c);
+    void DrawBody(b2Body* body, Color color);
 };

@@ -5,15 +5,63 @@
 static inline float RadToDeg(float r) { return r * (180.0f / 3.14159265f); }
 
 Game::Game(Physics* p) : physics(p) {
-    // === Cargar imagen de fondo ===
-    // Nnombre es correcto (mapa.png)
+
     fondo = LoadTexture("Assets/mapa.png");
 
- 
-// === Paredes del Pinball (mapa_coords.txt) ===
+    bumperIzquierdoTexture = LoadTexture("Assets/BumperIzquierdaPequeño.png");
+    bumperDerechoTexture = LoadTexture("Assets/BumperDerechoPequeño.png"); 
+    
+    
     {
-        // Tamaño del array 142
-// Pivot 0, 0
+    int BumperIzquierdaPequeño[24] = {
+    86, 235,
+    93, 255,
+    92, 260,
+    89, 263,
+    84, 264,
+    78, 254,
+    73, 242,
+    67, 224,
+    67, 218,
+    72, 214,
+    76, 214,
+    86, 233
+    };
+    
+    const int numVertices = 12;
+
+    b2Vec2 wallVertices[numVertices];
+    for (int i = 0; i < numVertices; ++i) {
+        wallVertices[i].Set((float)BumperIzquierdaPequeño[i * 2], (float)BumperIzquierdaPequeño[i * 2 + 1]);
+    }
+
+    physics->CreateChain(wallVertices, numVertices, 0.3f, 0.1f);
+    }
+    
+    {
+        int BumperDerechoPequeño[18] = {
+        296, 248,
+        296, 331,
+        288, 339,
+        282, 339,
+        274, 331,
+        274, 247,
+        281, 239,
+        288, 239,
+        296, 245
+        };
+
+        const int numVertices = 12;
+
+        b2Vec2 wallVertices[numVertices];
+        for (int i = 0; i < numVertices; ++i) {
+            wallVertices[i].Set((float)BumperDerechoPequeño[i * 2], (float)BumperDerechoPequeño[i * 2 + 1]);
+        }
+
+        physics->CreateChain(wallVertices, numVertices, 0.3f, 0.1f);
+    }
+    
+    {
         int wallCoords[200] = {
             358, 654,
             358, 448,
@@ -116,9 +164,7 @@ Game::Game(Physics* p) : physics(p) {
             346, 655,
             362, 655
         };
-
-
-        // Vértices a 71 (142 / 2)
+   
         const int numVertices = 100;
 
         b2Vec2 wallVertices[numVertices];
@@ -126,7 +172,6 @@ Game::Game(Physics* p) : physics(p) {
             wallVertices[i].Set((float)wallCoords[i * 2], (float)wallCoords[i * 2 + 1]);
         }
 
-        // Esto sigue igual (usa CreateChain)
         physics->CreateChain(wallVertices, numVertices, 0.3f, 0.1f);
     }
 
@@ -134,8 +179,8 @@ Game::Game(Physics* p) : physics(p) {
 
 
     // === Bola ===
-    ballRadius = 7.0f;
 
+    ballRadius = 7.0f;
     ball = physics->CreateCircle(345.0f, 600.0f, ballRadius, true, 1.0f, 0.2f, 0.8f);
 
     // === Flippers ===
@@ -144,7 +189,7 @@ Game::Game(Physics* p) : physics(p) {
     palancaDerecha.w = 50.0f;  
     palancaDerecha.h = 10.0f;
 
-    float yFlipper = 605.0f;//num PETIT -> flippers DALT, num GRAN -> flippers BAIX
+    float yFlipper = 605.0f; //num PETIT -> flippers DALT, num GRAN -> flippers BAIX
     float xLeft = 131.0f;    //num GRAN -> DRETA
     float xRight = 209.0f;   //num PETIT -> ESQUERRA
 
@@ -178,12 +223,16 @@ Game::Game(Physics* p) : physics(p) {
     posteVertical1.h = 90.0f;
     posteVertical1.body = physics->CreateBox(200.0f, 310.0f, posteVertical1.w, posteVertical1.h, false);
 
-    //Poste derecha medio del mapa ( el que tiene agujero arriba pegado ), falta editar para que se parecza a un 0
+    // Poste derecha medio del mapa ( el que tiene agujero arriba pegado ), falta editar para que se parecza a un 0
     // color blanco editar abajo en DRAW para eliminar el color y dejar el box coollider
     
+    // =========================================
+    // Editar linea 300 pa borrar los colores
+    // =========================================
+
     posteVertical5.w = 20.0f;
     posteVertical5.h = 90.0f;
-    posteVertical5.body = physics->CreateBox(200.0f, 350.0f, posteVertical5.w, posteVertical5.h, false);
+    posteVertical5.body = physics->CreateBox(73.0f, 283.0f, posteVertical5.w, posteVertical5.h, false);
 
     // postes 3 juntos arriba
     posteVertical2.w = 8.0f;
@@ -202,19 +251,8 @@ Game::Game(Physics* p) : physics(p) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
+    
 
     // === Postes ===
     posts[0] = physics->CreateCircle(270.0f, 320.0f, postRadius, false, 0.0f, 0.3f, 0.9f);
@@ -234,6 +272,8 @@ Game::Game(Physics* p) : physics(p) {
 
 Game::~Game() {
     UnloadTexture(fondo);
+    UnloadTexture(bumperIzquierdoTexture);
+    UnloadTexture(bumperDerechoTexture);
 }
 
 void Game::Update() {
@@ -304,23 +344,19 @@ void Game::DrawBoxRot(const BoxSprite& bx, Color c) {
 // --- Función Principal de Dibujo ---
 
 void Game::Draw() {
-    // === Fondo 1:1 ===
-    // <<< CAMBIADO: Se usa DrawTexture (1:1) en lugar de DrawTexturePro (estirado)
     DrawTexture(fondo, 0, 0, WHITE);
 
     DrawBoxRot(palancaIzquierda, RED);
     DrawBoxRot(palancaDerecha, RED);
 
+    DrawTexture(bumperIzquierdoTexture, 0, 0, WHITE);
+    DrawTexture(bumperDerechoTexture, 0, 0, WHITE);
 
-    
-    DrawBoxAA(posteVertical1, LIGHTGRAY); // Dibuja el poste
-    DrawBoxAA(posteVertical2, WHITE); // Dibuja el poste
-    DrawBoxAA(posteVertical3, RED); // Dibuja el poste
-    DrawBoxAA(posteVertical4, GREEN); // Dibuja el poste
-    DrawBoxAA(posteVertical5, YELLOW); // Dibuja el poste
+    DrawBoxAA(posteVertical2, WHITE); 
+    DrawBoxAA(posteVertical3, RED); 
+    DrawBoxAA(posteVertical4, GREEN); 
 
     // === Objetos físicos ===
-
     DrawBoxAA(rampLeft, RED);
     DrawBoxAA(rampRight, LIGHTGRAY);
 
@@ -340,6 +376,8 @@ void Game::Draw() {
     DrawTextEx(GetFontDefault(), TextFormat("HighScore: %d", highScore), { 10, 60 }, 20, 1, YELLOW);
 }
 
+
+
 void Game::ScoreRefresh() 
 {
     pastScore = score;
@@ -349,3 +387,4 @@ void Game::ScoreRefresh()
     }
     score = 0;
 }
+
