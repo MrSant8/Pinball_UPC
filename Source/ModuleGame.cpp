@@ -5,7 +5,7 @@
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
 
-
+//Quan creem la bola aqui hem de fer que Player1->ball = la bola que hem creat
 
 class PhysicEntity
 {
