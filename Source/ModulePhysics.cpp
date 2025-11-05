@@ -26,6 +26,13 @@ bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
 	
+	world = new b2World(b2Vec2 (0.0f,9.8f));
+
+
+	b2CircleShape shape;
+	shape.m_radius = PIXEL_TO_METERS(diameter) * 0.5f;
+
+
 	return true;
 }
 
@@ -42,7 +49,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 	b2BodyDef body;
 	body.type = b2_dynamicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-	body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
+	//body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
 
 	b2Body* b = world->CreateBody(&body);
 
@@ -54,8 +61,11 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 
 	b->CreateFixture(&fixture);
 
+	PhysBody* pbody = new PhysBody();
 	pbody->body = b;
-	pbody->width = pbody->height = radius;
+
+	/*pbody->body = b;
+	pbody->width = pbody->height = radius;*/
 
 	return pbody;
 }

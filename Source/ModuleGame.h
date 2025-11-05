@@ -27,5 +27,7 @@ public:
 
 	Texture2D mapa;
 	Texture2D circle;
+
+	std::vector<PhysicEntity*> entities;
 	
 };

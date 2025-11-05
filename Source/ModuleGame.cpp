@@ -123,7 +123,8 @@ update_status ModuleGame::Update()
 	DrawTexture(mapa, 0, 105, WHITE);
 
 	if (IsKeyPressed(KEY_ONE)) {
-		new Circle(App->physics, 20, 20, this,circle);
+		//new Circle(App->physics, 20, 20, this,circle);
+		entities.emplace_back(new Circle(App->physics, GetMouseX(), GetMouseY(), this, circle));
 	}
 
 	return UPDATE_CONTINUE;
