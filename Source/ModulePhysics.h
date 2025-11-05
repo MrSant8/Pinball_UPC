@@ -5,6 +5,36 @@
 
 #include "box2d\box2d.h"
 
+#pragma region Units
+#define PIXELS_PER_METER 50.0f          // 1 metro = 50 píxeles
+#define METER_PER_PIXEL (1.0f / PIXELS_PER_METER)
+
+#define PIXEL_TO_METERS(p) ((p) * METER_PER_PIXEL)  // pasar de píxeles a metros
+#define METERS_TO_PIXELS(m) ((m) * PIXELS_PER_METER) // pasar de metros a píxeles
+#pragma endregion
+
+
+
+class PhysBody
+{
+public:
+	PhysBody() : listener(NULL), body(NULL)
+	{
+	}
+
+	//void GetPosition(int& x, int& y) const;
+	void GetPhysicPosition(int& x, int& y) const;
+	float GetRotation() const;
+	bool Contains(int x, int y) const;
+	int RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& normal_y) const;
+
+public:
+	int width, height;
+	b2Body* body;
+	Module* listener;
+};
+
+
 
 // Module --------------------------------------
 class ModulePhysics : public Module, public b2ContactListener // TODO
@@ -14,32 +44,24 @@ public:
 	~ModulePhysics();
 
 	bool Start();
-	void Step(float dt = 1.0f / 60.0f, int velIters = 8, int posIters = 3);
-	b2Body* CreateBox(float x, float y, float w, float h, bool dynamic);
-
-	b2Body* CreateCircle(float x, float y, float radius, bool dynamic,
-		float density = 1.0f, float friction = 0.3f, float restitution = 0.8f);
-
-	b2RevoluteJoint* CreateRevoluteJoint(
-		b2Body* bodyA, b2Body* bodyB,
-		float anchorX_px, float anchorY_px,
-		float lowerDeg, float upperDeg,
-		bool enableMotor, float motorSpeedRad, float maxMotorTorque
-	);
-
-	b2Body* CreatePolygon(const b2Vec2* vertices, int count, float friction = 0.3f, float restitution = 0.1f);
-
-	b2Body* CreateChain(const b2Vec2* vertices, int count, float friction = 0.3f, float restitution = 0.1f);
-
-	b2World* GetWorld() const { return world; }
 	update_status PreUpdate();
 	update_status PostUpdate();
 	bool CleanUp();
 
-	
+
+	PhysBody* CreateCircle(int x, int y, int radius);
+	PhysBody* CreateRectangle(int x, int y, int width, int height);
+	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
+	PhysBody* CreateChain(int x, int y, const int* points, int size);
+
+	// b2ContactListener ---
+	void BeginContact(b2Contact* contact);
 
 private:
-	b2World* world = nullptr;
+
 	bool debug;
-	
+	b2World* world;
+	b2MouseJoint* mouse_joint;
+	b2Body* ground;
+
 };
