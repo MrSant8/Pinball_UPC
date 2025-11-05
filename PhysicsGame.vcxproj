@@ -191,17 +191,27 @@
     <ResourceCompile Include="Source\resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Physics.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\Log.cpp" />
+    <ClCompile Include="Source\Main1.cpp" />
+    <ClCompile Include="Source\ModuleAudio.cpp" />
+    <ClCompile Include="Source\ModuleGame.cpp" />
+    <ClCompile Include="Source\ModulePhysics.cpp" />
+    <ClCompile Include="Source\ModuleRender.cpp" />
+    <ClCompile Include="Source\ModuleWindow.cpp" />
+    <ClCompile Include="Source\Player1.cpp" />
+    <ClCompile Include="Source\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Physics.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\Globals.h" />
+    <ClInclude Include="Source\Module.h" />
+    <ClInclude Include="Source\ModuleAudio.h" />
+    <ClInclude Include="Source\ModuleGame.h" />
+    <ClInclude Include="Source\ModulePhysics.h" />
+    <ClInclude Include="Source\ModuleRender.h" />
+    <ClInclude Include="Source\ModuleWindow.h" />
+    <ClInclude Include="Source\Player1.h" />
     <ClInclude Include="Units.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
