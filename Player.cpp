@@ -4,8 +4,10 @@
 
 Player::Player(Scene* s) : scene(s) {}
 
-void Player::HandleInput() {
+void Player::HandleInput() 
+{
     // Control de Flippers
+
     if (IsKeyDown(KEY_LEFT)) {
         scene->GetLeftFlipperJoint()->SetMotorSpeed(flipperMotorSpeedUp);
     }
@@ -18,7 +20,9 @@ void Player::HandleInput() {
     else {
         scene->GetRightFlipperJoint()->SetMotorSpeed(-flipperMotorSpeedDown);
     }
+
     // Control del Lanzador
+
     if (IsKeyPressed(KEY_DOWN)) {
         b2Body* ball = scene->GetBall();
         if (METERS_TO_PIXELS(ball->GetPosition().x) > 730) {
