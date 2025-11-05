@@ -189,7 +189,7 @@ Game::Game(Physics* p) : physics(p) {
     palancaDerecha.w = 50.0f;  
     palancaDerecha.h = 10.0f;
 
-    float yFlipper = 605.0f; //num PETIT -> flippers DALT, num GRAN -> flippers BAIX
+    float yFlipper = 626.0f; //num PETIT -> flippers DALT, num GRAN -> flippers BAIX
     float xLeft = 131.0f;    //num GRAN -> DRETA
     float xRight = 209.0f;   //num PETIT -> ESQUERRA
 
