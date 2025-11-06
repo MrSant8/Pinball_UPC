@@ -10,8 +10,9 @@
 
 ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	b2Vec2 gravity(0.0f, 9.8f);
-	world = new b2World(gravity);
+	/*b2Vec2 gravity(0.0f, 9.8f);
+	world = new b2World(gravity);*/
+	world = NULL;
 	debug = true;
 }
 
@@ -26,7 +27,7 @@ bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
 	
-	world = new b2World(b2Vec2 (0.0f,9.8f));
+	world = new b2World(b2Vec2 (0.0f,-9.8f));
 
 	b2BodyDef body;
 	body.type = b2_staticBody;
@@ -88,6 +89,29 @@ update_status ModulePhysics::PostUpdate()
 	}
 	
 	return UPDATE_CONTINUE;
+}
+
+
+PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
+{
+	b2BodyDef body;
+	body.type = b2_dynamicBody;
+	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+
+	b2Body* b = world->CreateBody(&body);
+
+	b2CircleShape shape;
+	shape.m_radius = PIXEL_TO_METERS(radius);
+	b2FixtureDef fixture;
+	fixture.shape = &shape;
+	fixture.density = 1.0f;
+
+	b->CreateFixture(&fixture);
+
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+
+	return pbody;
 }
 
 // Called before quitting
