@@ -32,8 +32,8 @@ bool ModulePhysics::Start()
 	player = CreateCircle(initialPos[0], initialPos[1], 10);
 
 	//FLIPPERS
-	flipperD = CreateRectangle(212, 730, 50, 15, true);
-	flipperE = CreateRectangle(127, 730, 50, 15, true);
+	flipperD = CreateRectangle(212, 730, 50, 15);
+	flipperE = CreateRectangle(127, 730, 50, 15);
 	flipperAnchor = CreateBox(1, 1, 1, 1, false);
 
 
@@ -203,12 +203,12 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 	return pbody;
 }
 
-PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height,bool dynamic)
+PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
 {
 	PhysBody* pbody = new PhysBody();
 
 	b2BodyDef body;
-	body.type = b2_kinematicBody;
+	body.type = b2_dynamicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 	body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
 
