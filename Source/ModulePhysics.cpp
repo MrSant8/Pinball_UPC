@@ -67,9 +67,6 @@ bool ModulePhysics::Start()
 update_status ModulePhysics::PreUpdate()
 {
 	world->Step(1.0f / 60.0f, 6, 2);
-	player->listener->OnCollision(player, bumper1);
-	player->listener->OnCollision(player, bumper2);
-	player->listener->OnCollision(player, bumper3);
 	return UPDATE_CONTINUE;
 }
 
