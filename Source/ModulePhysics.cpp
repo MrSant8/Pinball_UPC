@@ -36,7 +36,7 @@ bool ModulePhysics::Start()
 	flipperE = CreateRectangle(127 ,730, 50, 15);
 	bumper1 = CreateCircle(126, 400, 24);
 	bumper1->body->SetType(b2_staticBody);
-	bumper2 = CreateCircle(220, 400, 24);
+	bumper2 = CreateCircle(350, 400, 24);
 	bumper2->body->SetType(b2_staticBody);
 	bumper3 = CreateCircle(173, 324, 24);
 	bumper3->body->SetType(b2_staticBody);
@@ -48,9 +48,22 @@ bool ModulePhysics::Start()
 update_status ModulePhysics::PreUpdate()
 {
 	world->Step(1.0f / 60.0f, 6, 2);
-	player->listener->OnCollision(player, bumper1);
+	for (b2Contact* c = world->GetContactList(); c; c = c->GetNext())
+	{
+		if (c->GetFixtureA()->IsSensor() && c->IsTouching())
+		{
+			b2BodyUserData data1 = c->GetFixtureA()->GetBody()->GetUserData();
+			b2BodyUserData data2 = c->GetFixtureA()->GetBody()->GetUserData();
+
+			PhysBody* pb1 = (PhysBody*)data1.pointer;
+			PhysBody* pb2 = (PhysBody*)data2.pointer;
+			if (pb1 && pb2 && pb1->listener)
+				pb1->listener->OnCollision(pb1, pb2);
+		}
+	}
+	/*player->listener->OnCollision(player, bumper1);
 	player->listener->OnCollision(player, bumper2);
-	player->listener->OnCollision(player, bumper3);
+	player->listener->OnCollision(player, bumper3);*/
 	return UPDATE_CONTINUE;
 }
 
@@ -163,6 +176,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 	PhysBody* pbody = new PhysBody();
 	pbody->body = b;
 	pbody->listener = this;
+	body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
 	return pbody;
 }
 
@@ -197,7 +211,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, const int* points, int size)
 	PhysBody* pbody = new PhysBody();
 
 	b2BodyDef body;
-	body.type = b2_staticBody;
+	body.type = b2_kinematicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 	body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
 
@@ -367,21 +381,20 @@ void ModulePhysics::crearMapa() {
 
 void ModulePhysics::BeginContact(b2Contact* contact)
 {
-	b2BodyUserData dataA = contact->GetFixtureA()->GetBody()->GetUserData();
-	b2BodyUserData dataB = contact->GetFixtureB()->GetBody()->GetUserData();
+	b2Body* bodyA = contact->GetFixtureA()->GetBody();
+	b2Body* bodyB = contact->GetFixtureB()->GetBody();
 
-	PhysBody* physA = (PhysBody*)dataA.pointer;
-	PhysBody* physB = (PhysBody*)dataB.pointer;
+	if (bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody) {
+		player->body->ApplyLinearImpulseToCenter(b2Vec2(0.0f, 100.5f), true);
+	}
 
-	if (physA && physA->listener != NULL)
-		physA->listener->OnCollision(physA, physB);
-
-	if (physB && physB->listener != NULL)
-		physB->listener->OnCollision(physB, physA);
+	if (bodyB->GetType() == b2_staticBody && bodyA->GetType() == b2_dynamicBody) {
+		player->body->ApplyLinearImpulseToCenter(b2Vec2(0.0f, 100.5f), true);
+	}
 }
 
 void ModulePhysics::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-	LOG("holaaa");
+	player->body->ApplyLinearImpulseToCenter(b2Vec2(0.0f, -2.5f), true);
 	//score = score + 100;
 }
