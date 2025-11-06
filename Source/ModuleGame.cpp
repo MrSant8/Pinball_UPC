@@ -52,10 +52,8 @@ update_status ModuleGame::Update()
 	DrawTexture(mapa, 0, 105, WHITE);
 
 	if (IsKeyPressed(KEY_ONE)) {
-		//new Circle(App->physics, 20, 20, this,circle);
-		/*entities.emplace_back(new Circle(App->physics, GetMouseX(), GetMouseY(), this, circle));
 
-		App->renderer->Draw(circle, 40 - circle.width * 0.5f, 40 - circle.height * 0.5f);*/
+		bodies.push_back(App->physics->CreateCircle(GetMouseX(), GetMouseY(), 25));
 	}
 
 	for each (PhysBody * body in bodies)

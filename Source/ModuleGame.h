@@ -28,6 +28,6 @@ public:
 	Texture2D mapa;
 	Texture2D circle;
 
-	std::vector<PhysicEntity*> entities;
+	//std::vector<PhysicEntity*> entities;
 	std::vector<PhysBody*> bodies;
 };
