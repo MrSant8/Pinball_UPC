@@ -44,7 +44,7 @@ bool ModulePhysics::Start()
 	flipperD->body->SetAngularDamping(5.0f);
 	flipperE->body->SetAngularDamping(5.0f);
 
-	float leftAnchorX = xLeft - flipperE->width * 0.5f + 6.0f;
+	float leftAnchorX = xLeft - flipperE->width * 0.5f + 60.0f;
 	float rightAnchorX = xRight + flipperD->width * 0.5f - 6.0f;
 
 	float lower = -30.0f, upper = 30.0f;
