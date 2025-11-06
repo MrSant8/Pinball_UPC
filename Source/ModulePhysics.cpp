@@ -132,6 +132,24 @@ update_status ModulePhysics::PostUpdate()
 			}
 		}
 
+		int posicionX, posicionY;
+		player->GetPosition(posicionX, posicionY);
+		if (posicionY > 800)
+		{
+			gameStarted = false;
+			world->DestroyBody(player->body);
+			delete player;
+			player = CreateCircle(initialPos[0], initialPos[1], 10);
+			world->SetGravity({ 0.0f, 0.0f });
+
+			livesRemaining--;
+
+			if (livesRemaining <= 0)
+			{
+				//game over
+			}
+		}
+
 	}
 
 	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
