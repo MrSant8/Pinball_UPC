@@ -24,4 +24,7 @@ public:
 	Color background;
     Rectangle camera;
 	int* score;
+	int* highScore;
+	int* lastScore;
+	int* livesRemaining;
 };

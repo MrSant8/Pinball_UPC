@@ -69,6 +69,7 @@ public:
 	bool gameStarted = false;
 
 	void crearMapa();
+	void ResetScore();
 	void BeginContact(b2Contact* contact);
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 
