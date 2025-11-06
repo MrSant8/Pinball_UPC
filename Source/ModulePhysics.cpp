@@ -31,7 +31,34 @@ bool ModulePhysics::Start()
 
 	player = CreateCircle(initialPos[0], initialPos[1], 10);
 
+	int mapaPart1[46] = {
+	360, 656,
+	363, 172,
+	351, 126,
+	334, 85,
+	294, 47,
+	231, 21,
+	162, 20,
+	93, 39,
+	36, 93,
+	15, 157,
+	15, 217,
+	69, 382,
+	18, 442,
+	19, 591,
+	30, 606,
+	45, 605,
+	52, 597,
+	98, 620,
+	100, 652,
+	8, 652,
+	5, 12,
+	370, 12,
+	377, 655
+	};
 
+	//Crear limits mon
+	PhysBody* part1Mapa = CreateChain(0, 105, mapaPart1, 62);
 	return true;
 }
 
@@ -87,6 +114,23 @@ update_status ModulePhysics::PostUpdate()
 				b2Vec2 pos = f->GetBody()->GetPosition();
 
 				DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), (float)METERS_TO_PIXELS(shape->m_radius), WHITE);
+			}
+			break;
+			case b2Shape::e_chain:
+			{
+				b2ChainShape* shape = (b2ChainShape*)f->GetShape();
+				b2Vec2 prev, v;
+
+				for (int32 i = 0; i < shape->m_count; ++i)
+				{
+					v = b->GetWorldPoint(shape->m_vertices[i]);
+					if (i > 0)
+						DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), GREEN);
+					prev = v;
+				}
+
+				v = b->GetWorldPoint(shape->m_vertices[0]);
+				DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), GREEN);
 			}
 			break;
 			}
