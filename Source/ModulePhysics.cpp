@@ -112,12 +112,26 @@ update_status ModulePhysics::PostUpdate()
 		gameStarted = true;
 	}
 	else if (IsKeyPressed(KEY_R) && gameStarted == true) {
-		gameStarted = false;
-		world->DestroyBody(player->body);
-		delete player;
-		player = CreateCircle(initialPos[0], initialPos[1], 10);
-		world->SetGravity({ 0.0f, 0.0f });
-		ResetScore();
+		{
+			int posicionX, posicionY;
+			player->GetPosition(posicionX, posicionY);
+			if (posicionY > 800)
+			{
+				gameStarted = false;
+				world->DestroyBody(player->body);
+				delete player;
+				player = CreateCircle(initialPos[0], initialPos[1], 10);
+				world->SetGravity({ 0.0f, 0.0f });
+
+				livesRemaining--;
+
+				if (livesRemaining <= 0)
+				{
+					// Game Over
+				}
+			}
+		}
+
 	}
 
 	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
