@@ -6,14 +6,14 @@ static inline float RadToDeg(float r) { return r * (180.0f / 3.14159265f); }
 
 Game::Game(Physics* p) : physics(p) {
 
-    fondo = LoadTexture("Assets/mapa.png");
+    fondo = LoadTexture("Assets/mapaHD.png");
 
-    bumperIzquierdoTexture = LoadTexture("Assets/BumperIzquierdaPequeño.png");
-    bumperDerechoTexture = LoadTexture("Assets/BumperDerechoPequeño.png"); 
+    bumperIzquierdoTexture = LoadTexture("Assets/BumperIzquierdaPequeï¿½o.png");
+    bumperDerechoTexture = LoadTexture("Assets/BumperDerechoPequeï¿½o.png"); 
     
     
     {
-    int BumperIzquierdaPequeño[24] = {
+    int BumperIzquierdaPequeï¿½o[24] = {
     86, 235,
     93, 255,
     92, 260,
@@ -32,14 +32,14 @@ Game::Game(Physics* p) : physics(p) {
 
     b2Vec2 wallVertices[numVertices];
     for (int i = 0; i < numVertices; ++i) {
-        wallVertices[i].Set((float)BumperIzquierdaPequeño[i * 2], (float)BumperIzquierdaPequeño[i * 2 + 1]);
+        wallVertices[i].Set((float)BumperIzquierdaPequeï¿½o[i * 2], (float)BumperIzquierdaPequeï¿½o[i * 2 + 1]);
     }
 
     physics->CreateChain(wallVertices, numVertices, 0.3f, 0.1f);
     }
     
     {
-        int BumperDerechoPequeño[18] = {
+        int BumperDerechoPequeï¿½o[18] = {
         296, 248,
         296, 331,
         288, 339,
@@ -55,7 +55,7 @@ Game::Game(Physics* p) : physics(p) {
 
         b2Vec2 wallVertices[numVertices];
         for (int i = 0; i < numVertices; ++i) {
-            wallVertices[i].Set((float)BumperDerechoPequeño[i * 2], (float)BumperDerechoPequeño[i * 2 + 1]);
+            wallVertices[i].Set((float)BumperDerechoPequeï¿½o[i * 2], (float)BumperDerechoPequeï¿½o[i * 2 + 1]);
         }
 
         physics->CreateChain(wallVertices, numVertices, 0.3f, 0.1f);
@@ -352,41 +352,60 @@ void Game::DrawBoxRot(const BoxSprite& bx, Color c) {
     DrawRectanglePro(rect, origin, angleDeg, c);
 }
 
-// --- Función Principal de Dibujo ---
+// --- Funciï¿½n Principal de Dibujo ---
 
 void Game::Draw() {
     DrawTexture(fondo, 0, 0, WHITE);
 
-    DrawBoxRot(palancaIzquierda, RED);
-    DrawBoxRot(palancaDerecha, RED);
+    // Draw physical objects with debug colors
+    DrawBoxRot(palancaIzquierda, BLUE);
+    DrawBoxRot(palancaDerecha, BLUE);
 
+    // Draw bumpers with debug colors
     DrawTexture(bumperIzquierdoTexture, 0, 0, WHITE);
     DrawTexture(bumperDerechoTexture, 0, 0, WHITE);
 
-    DrawBoxAA(posteVertical2, WHITE);
-    DrawBoxAA(posteVertical3, RED);
-    DrawBoxAA(posteVertical4, GREEN);
+    // Draw posts with debug colors
+    DrawBoxAA(posteVertical2, YELLOW);
+    DrawBoxAA(posteVertical3, YELLOW);
+    DrawBoxAA(posteVertical4, YELLOW);
 
-    // === Objetos físicos ===
+    // Draw ramps with debug colors
+    DrawBoxAA(rampLeft, ORANGE);
+    DrawBoxAA(rampRight, ORANGE);
 
-    DrawBoxAA(rampLeft, RED);
-    DrawBoxAA(rampRight, LIGHTGRAY);
+    // Draw wall colliders (from the wallCoords array)
+    // This is a simplified visualization - you might want to draw the actual chain shape
+    // For now, we'll just draw the first and last points
+    b2Vec2 wallVertices[100];
+    for (int i = 0; i < 100; ++i) {
+        wallVertices[i].Set((float)wallCoords[i * 2], (float)wallCoords[i * 2 + 1]);
+    }
+    for (int i = 0; i < 99; ++i) {
+        DrawLineV(
+            {wallVertices[i].x, wallVertices[i].y},
+            {wallVertices[i+1].x, wallVertices[i+1].y},
+            PURPLE
+        );
+    }
 
-   /* for (int i = 0; i < kNumBumpers; ++i) {
-        if (bumpers[i]) {
-            b2Vec2 p = bumpers[i]->GetPosition();
-            DrawCircle((int)METERS_TO_PIXELS(p.x), (int)METERS_TO_PIXELS(p.y), bumperRadius, YELLOW);
-        }
-    }*/
-
-    // === Bola ===
-
+    // Draw ball
     b2Vec2 pb = ball->GetPosition();
-    DrawCircle((int)METERS_TO_PIXELS(pb.x), (int)METERS_TO_PIXELS(pb.y), ballRadius, WHITE);
+    DrawCircle((int)pb.x, (int)pb.y, ballRadius, WHITE);
 
+    // Debug UI
     DrawFPS(10, 10);
     DrawTextEx(GetFontDefault(), TextFormat("Score: %d", score), { 10, 30 }, 20, 1, YELLOW);
     DrawTextEx(GetFontDefault(), TextFormat("HighScore: %d", highScore), { 10, 60 }, 20, 1, YELLOW);
+    
+    // Draw collider legend
+    DrawText("Colliders:", 10, 90, 16, WHITE);
+    DrawRectangle(10, 110, 10, 10, RED); DrawText("Left Bumper", 25, 110, 12, WHITE);
+    DrawRectangle(10, 125, 10, 10, GREEN); DrawText("Right Bumper", 25, 125, 12, WHITE);
+    DrawRectangle(10, 140, 10, 10, BLUE); DrawText("Flippers", 25, 140, 12, WHITE);
+    DrawRectangle(10, 155, 10, 10, YELLOW); DrawText("Posts", 25, 155, 12, WHITE);
+    DrawRectangle(10, 170, 10, 10, ORANGE); DrawText("Ramps", 25, 170, 12, WHITE);
+    DrawRectangle(10, 185, 10, 10, PURPLE); DrawText("Map Walls", 25, 185, 12, WHITE);
 }
 
 

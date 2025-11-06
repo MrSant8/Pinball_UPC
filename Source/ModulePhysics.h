@@ -28,7 +28,7 @@ public:
 
 
 // Module --------------------------------------
-class ModulePhysics : public Module
+class ModulePhysics : public Module, public b2ContactListener // TODO
 {
 public:
 	ModulePhysics(Application* app, bool start_enabled = true);
@@ -39,9 +39,10 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	PhysBody* CreateCircle(int x, int y, int radius);
+
+	/*PhysBody* CreateCircle(int x, int y, int radius);*/
 	
-	int initialPos[2] = {346, 700};
+
 	
 
 private:
