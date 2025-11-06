@@ -60,13 +60,15 @@ update_status ModulePhysics::PostUpdate()
 
 	if (IsKeyPressed(KEY_DOWN) && gameStarted == false) {
 		world->SetGravity({ 0.0f, 9.8f });
+		world->DestroyBody(player->body);
 		delete player;
 		player = CreateCircle(initialPos[0], initialPos[1], 10);
-		//player->ApplyLinearImpulseToCenter(b2Vec2(0.0f, -12.0f), true);
+		player->body->ApplyLinearImpulseToCenter(b2Vec2(0.0f, -2.5f), true);
 		gameStarted = true;
 	}
 	else if (IsKeyPressed(KEY_R) && gameStarted == true) {
 		gameStarted = false;
+		world->DestroyBody(player->body);
 		delete player;
 		player = CreateCircle(initialPos[0], initialPos[1], 10);
 		world->SetGravity({ 0.0f, 0.0f });
