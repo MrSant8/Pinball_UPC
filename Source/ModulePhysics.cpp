@@ -30,8 +30,8 @@ bool ModulePhysics::Start()
 	world = new b2World(b2Vec2 (0.0f,0.0f));
 
 	player = CreateCircle(initialPos[0], initialPos[1], 10);
-	flipperD = CreateRectangle(215, 730, 50, 15);
-	flipperE = CreateRectangle(400 ,400, 10, 10);
+	flipperD = CreateRectangle(212, 730, 50, 15);
+	flipperE = CreateRectangle(127 ,730, 50, 15);
 
 	crearMapa();
 	return true;
@@ -50,7 +50,7 @@ update_status ModulePhysics::PostUpdate()
 {
 	//FLIPPERS
 
-	flipperAnchor = physics->CreateBox(1, 1, 1, 1, false);
+	//flipperAnchor = physics->CreateBox(1, 1, 1, 1, false);
 
 	if (IsKeyPressed(KEY_F1))
 	{
@@ -164,7 +164,8 @@ PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
 	PhysBody* pbody = new PhysBody();
 
 	b2BodyDef body;
-	body.type = b2_dynamicBody;
+	body.type = b2_kinematicBody;
+	body.gravityScale = 0;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 	body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
 
