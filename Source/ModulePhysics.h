@@ -50,6 +50,8 @@ public:
 	PhysBody* flipperE;
 	bool gameStarted = false;
 
+	void crearMapa();
+
 private:
 
 	bool debug;
