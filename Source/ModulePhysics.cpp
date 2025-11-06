@@ -264,6 +264,22 @@ PhysBody* CreateBox(float x, float y, float w, float h, bool dynamic) {
 	body->body->CreateFixture(&fd);
 	return body;
 }
+b2RevoluteJoint* CreateRevoluteJoint(
+	b2Body* bodyA, b2Body* bodyB,
+	float anchorX_px, float anchorY_px,
+	float lowerDeg, float upperDeg,
+	bool enableMotor, float motorSpeedRad, float maxMotorTorque
+) {
+	b2RevoluteJointDef jd;
+	jd.Initialize(bodyA, bodyB, b2Vec2(PIXEL_TO_METERS(anchorX_px), PIXEL_TO_METERS(anchorY_px)));
+	jd.enableLimit = true;
+	jd.lowerAngle = lowerDeg * b2_pi / 180.0f;
+	jd.upperAngle = upperDeg * b2_pi / 180.0f;
+	jd.enableMotor = enableMotor;
+	jd.motorSpeed = motorSpeedRad;
+	jd.maxMotorTorque = maxMotorTorque;
+	return (b2RevoluteJoint*)world->CreateJoint(&jd);
+}
 
 // Called before quitting
 bool ModulePhysics::CleanUp()
