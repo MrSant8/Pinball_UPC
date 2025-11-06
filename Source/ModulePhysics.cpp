@@ -30,7 +30,7 @@ bool ModulePhysics::Start()
 	world = new b2World(b2Vec2 (0.0f,0.0f));
 
 	player = CreateCircle(initialPos[0], initialPos[1], 10);
-	flipperD = CreateRectangle(40, 40, 10, 10);
+	flipperD = CreateRectangle(215, 730, 50, 15);
 	flipperE = CreateRectangle(400 ,400, 10, 10);
 
 	crearMapa();
@@ -106,6 +106,25 @@ update_status ModulePhysics::PostUpdate()
 
 				v = b->GetWorldPoint(shape->m_vertices[0]);
 				DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), GREEN);
+			}
+			break;
+			case b2Shape::e_polygon:
+			{
+				b2PolygonShape* polygonShape = (b2PolygonShape*)f->GetShape();
+				int32 count = polygonShape->m_count;
+				b2Vec2 prev, v;
+
+				for (int32 i = 0; i < count; ++i)
+				{
+					v = b->GetWorldPoint(polygonShape->m_vertices[i]);
+					if (i > 0)
+						DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), RED);
+
+					prev = v;
+				}
+
+				v = b->GetWorldPoint(polygonShape->m_vertices[0]);
+				DrawLine(METERS_TO_PIXELS(prev.x), METERS_TO_PIXELS(prev.y), METERS_TO_PIXELS(v.x), METERS_TO_PIXELS(v.y), RED);
 			}
 			break;
 			}
