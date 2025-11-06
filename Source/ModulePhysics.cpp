@@ -50,8 +50,8 @@ bool ModulePhysics::Start()
 
 	float lower = -30.0f, upper = 30.0f;
 
-	/*jointE = CreateRevoluteJoint(flipperAnchor, flipperE, leftAnchorX, yFlipper, lower, upper, true, -8.0f, 120.0f);
-	jointD = CreateRevoluteJoint(flipperAnchor, flipperD, rightAnchorX, yFlipper, lower, upper, true, 8.0f, 120.0f);*/
+	jointE = CreateRevoluteJoint(flipperAnchor, flipperE, leftAnchorX, yFlipper, lower, upper, true, -8.0f, 120.0f);
+	jointD = CreateRevoluteJoint(flipperAnchor, flipperD, rightAnchorX, yFlipper, lower, upper, true, 8.0f, 120.0f);
 
 	bumper1 = CreateCircle(126, 400, 24);
 	bumper1->body->SetType(b2_staticBody);
