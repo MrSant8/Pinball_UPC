@@ -17,9 +17,10 @@
 
 class PhysBody {
 public:
-	PhysBody() {}
+	PhysBody() {};
 
 	void GetPosition(int& x, int& y) const;
+	int width,height;
 
 public:
 	b2Body* body;
@@ -40,6 +41,8 @@ public:
 	bool CleanUp();
 
 	PhysBody* CreateCircle(int x, int y, int radius);
+	PhysBody* CreateRectangle(int x, int y, int width, int height);
+
 	
 	int initialPos[2] = {345, 700};
 	PhysBody* player;
@@ -49,6 +52,7 @@ private:
 
 	bool debug;
 	b2World* world;
-
+	b2MouseJoint* mouse_joint;
+	b2Body* ground;
 
 };

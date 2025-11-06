@@ -51,6 +51,10 @@ update_status ModuleGame::Update()
 {
 	DrawTexture(mapa, 0, 105, WHITE);
 
+	/*Rectangle flipper = {200,200};
+	Vector2 fliPos = { 0,105 };
+	DrawRectanglePro(flipper,fliPos , 5.0, RED);*/
+
 	if (IsKeyPressed(KEY_ONE)) {
 
 		bodies.push_back(App->physics->CreateCircle(GetMouseX(), GetMouseY(), 25));
