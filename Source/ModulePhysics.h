@@ -61,11 +61,11 @@ public:
 
 	PhysBody* flipperAnchor = nullptr;
 	PhysBody* CreateBox(float x, float y, float w, float h, bool dynamic);
-	b2RevoluteJoint* CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB,
+	/*b2RevoluteJoint* CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB,
 		float anchorX_px, float anchorY_px,
 		float lowerDeg, float upperDeg,
 		bool enableMotor, float motorSpeedRad, float maxMotorTorque
-	);
+	);*/
 
 
 	bool gameStarted = false;
