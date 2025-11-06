@@ -429,6 +429,16 @@ void ModulePhysics::crearMapa() {
 	75, 243,
 	78, 250,
 	80, 259
+	}; 
+	int palGran[16] = {
+	274, 331,
+	274, 247,
+	281, 240,
+	290, 240,
+	296, 248,
+	296, 332,
+	289, 339,
+	282, 339
 	};
 	//Crear limits mon
 	PhysBody* Mapa = CreateChain(0, 105, mapaHD, 102);
@@ -439,6 +449,7 @@ void ModulePhysics::crearMapa() {
 	PhysBody* pal2 = CreateChain(36, 105, pal, 16);
 	PhysBody* pal3 = CreateChain(72, 105, pal, 16);
 	PhysBody* diagonal = CreateChain(0, 105, palDiagonal, 22);
+	PhysBody* gran = CreateChain(0, 105, palGran, 16);
 }
 
 void ModulePhysics::BeginContact(b2Contact* contact)
