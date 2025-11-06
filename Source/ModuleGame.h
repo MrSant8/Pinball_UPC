@@ -27,6 +27,7 @@ public:
 
 	Texture2D mapa;
 	Texture2D circle;
+	Texture2D flipper;
 
 	//std::vector<PhysicEntity*> entities;
 	std::vector<PhysBody*> bodies;
