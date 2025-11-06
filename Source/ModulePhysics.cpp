@@ -26,7 +26,6 @@ ModulePhysics::~ModulePhysics()
 bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
-	
 	world = new b2World(b2Vec2 (0.0f,0.0f));
 	world->SetContactListener(this);
 
@@ -67,9 +66,6 @@ bool ModulePhysics::Start()
 update_status ModulePhysics::PreUpdate()
 {
 	world->Step(1.0f / 60.0f, 6, 2);
-	player->listener->OnCollision(player, bumper1);
-	player->listener->OnCollision(player, bumper2);
-	player->listener->OnCollision(player, bumper3);
 	return UPDATE_CONTINUE;
 }
 
@@ -120,6 +116,7 @@ update_status ModulePhysics::PostUpdate()
 		delete player;
 		player = CreateCircle(initialPos[0], initialPos[1], 10);
 		world->SetGravity({ 0.0f, 0.0f });
+		score = 0;
 	}
 
 	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
@@ -132,8 +129,12 @@ update_status ModulePhysics::PostUpdate()
 			{
 				b2CircleShape* shape = (b2CircleShape*)f->GetShape();
 				b2Vec2 pos = f->GetBody()->GetPosition();
-
-				DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), (float)METERS_TO_PIXELS(shape->m_radius), WHITE);
+				if (b->GetType() == b2_dynamicBody) {
+					DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), (float)METERS_TO_PIXELS(shape->m_radius), WHITE);
+				}
+				else {
+					DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), (float)METERS_TO_PIXELS(shape->m_radius), RAYWHITE);
+				}
 			}
 			break;
 			case b2Shape::e_chain:
@@ -233,7 +234,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, const int* points, int size)
 	PhysBody* pbody = new PhysBody();
 
 	b2BodyDef body;
-	body.type = b2_staticBody;
+	body.type = b2_kinematicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 	body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
 
@@ -442,19 +443,19 @@ void ModulePhysics::crearMapa() {
 
 void ModulePhysics::BeginContact(b2Contact* contact)
 {
-	b2BodyUserData dataA = contact->GetFixtureA()->GetBody()->GetUserData();
-	b2BodyUserData dataB = contact->GetFixtureB()->GetBody()->GetUserData();
+	b2Body* dataA = contact->GetFixtureA()->GetBody();
+	b2Body* dataB = contact->GetFixtureB()->GetBody();
 
-	PhysBody* physA = (PhysBody*)dataA.pointer;
-	PhysBody* physB = (PhysBody*)dataB.pointer;
+	if (dataA->GetType() == b2_staticBody && dataB->GetType() == b2_dynamicBody) {
+		player->listener->OnCollision(player, player);
+	}
 
-	if (physA && physA->listener != NULL)
-		physA->listener->OnCollision(physA, physB);
-
-	if (physB && physB->listener != NULL)
-		physB->listener->OnCollision(physB, physA);
+	if (dataB->GetType() == b2_staticBody && dataA->GetType() == b2_dynamicBody) {
+		player->listener->OnCollision(player, player);
+	}
 }
 
 void ModulePhysics::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
+	score = score + 10;
 }

@@ -23,4 +23,5 @@ public:
 
 	Color background;
     Rectangle camera;
+	int* score;
 };
