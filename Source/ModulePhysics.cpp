@@ -33,7 +33,7 @@ bool ModulePhysics::Start()
 
 	//FLIPPERS
 	
-	float yFlipper = 738.0f;
+	float yFlipper = 742.0f;
 	float xLeft = 136.0f;
 	float xRight = 201.0f;
 
@@ -47,8 +47,8 @@ bool ModulePhysics::Start()
 
 	float lower = -30.0f, upper = 30.0f;
 
-	jointE = CreateRevoluteJoint(flipperAnchor, flipperE, leftAnchorX, yFlipper, lower, upper, true, -12.0f, 120.0f);
-	jointD = CreateRevoluteJoint(flipperAnchor, flipperD, rightAnchorX, yFlipper, lower, upper, true, 12.0f, 120.0f);
+	jointE = CreateRevoluteJoint(flipperAnchor, flipperE, leftAnchorX, yFlipper, lower, upper, true, -100.0f, 120.0f);
+	jointD = CreateRevoluteJoint(flipperAnchor, flipperD, rightAnchorX, yFlipper, lower, upper, true, 100.0f, 120.0f);
 
 	flipperE->body->SetTransform(flipperE->body->GetPosition(), 0.0f);
 	flipperD->body->SetTransform(flipperD->body->GetPosition(), 0.0f);
