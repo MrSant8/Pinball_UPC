@@ -478,6 +478,6 @@ void ModulePhysics::BeginContact(b2Contact* contact)
 
 void ModulePhysics::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-	player->body->ApplyLinearImpulseToCenter(b2Vec2(0.0f, -2.5f), true);
+	//player->body->ApplyLinearImpulseToCenter(b2Vec2(0.0f, -2.5f), true);
 	//score = score + 100;
 }
