@@ -47,6 +47,9 @@ update_status ModuleRender::PostUpdate()
     // Draw everything in our batch!
     DrawFPS(10, 10);
 
+    DrawText("DOWN: START SIMULATION",10 ,29 ,18 ,YELLOW );
+    DrawText("R: RESTART", 10, 45, 18, YELLOW);
+
     EndDrawing();
 
 	return UPDATE_CONTINUE;
@@ -85,13 +88,3 @@ bool ModuleRender::Draw(Texture2D texture, int x, int y, const Rectangle* sectio
 	return ret;
 }
 
-bool ModuleRender::DrawText(const char * text, int x, int y, Font font, int spacing, Color tint) const
-{
-    bool ret = true;
-
-    Vector2 position = { (float)x, (float)y };
-
-    DrawTextEx(font, text, position, (float)font.baseSize, (float)spacing, tint);
-
-    return ret;
-}
