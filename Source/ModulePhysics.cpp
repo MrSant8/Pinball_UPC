@@ -29,18 +29,7 @@ bool ModulePhysics::Start()
 	
 	world = new b2World(b2Vec2 (0.0f,9.8f));
 
-	b2BodyDef body;
-	body.type = b2_staticBody;
-	body.position.Set(PIXEL_TO_METERS(initialPos[0]), PIXEL_TO_METERS(initialPos[1]));
-
-	b2Body* b = world->CreateBody(&body);
-
-	b2CircleShape shape;
-	shape.m_radius = PIXEL_TO_METERS(20) * 0.5f;
-
-	b2FixtureDef fixture;
-	fixture.shape = &shape;
-	b->CreateFixture(&fixture);
+	player = CreateCircle(initialPos[0], initialPos[1], 10);
 
 
 	return true;
@@ -69,7 +58,15 @@ update_status ModulePhysics::PostUpdate()
 		return UPDATE_CONTINUE;
 	}
 
-	
+	if (IsKeyPressed(KEY_DOWN) && gameStarted == false) {
+		//player->ApplyLinearImpulseToCenter(b2Vec2(0.0f, -12.0f), true);
+		gameStarted = true;
+	}
+	else if (IsKeyPressed(KEY_R) && gameStarted == true) {
+		gameStarted = false;
+		//Destruir la bola i crear una nova a la posicio inicial
+	}
+
 	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
 	{
 		for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext())

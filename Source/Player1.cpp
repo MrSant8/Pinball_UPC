@@ -27,14 +27,6 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	if (IsKeyPressed(KEY_DOWN) && gameStarted == false) {
-		ball->ApplyLinearImpulseToCenter(b2Vec2(0.0f, -12.0f), true);
-		gameStarted = true;
-	}
-	else if (IsKeyPressed(KEY_R) && gameStarted == true) {
-		gameStarted = false;
-		//Destruir la bola i crear una nova a la posicio inicial
-	}
 	return UPDATE_CONTINUE;
 }
 
