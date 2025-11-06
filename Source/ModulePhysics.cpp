@@ -171,7 +171,48 @@ update_status ModulePhysics::PostUpdate()
 			}
 		}
 	}
-	
+
+	b2Vec2 position = player->body->GetPosition();
+	if (position.y > 790)
+	{
+		gameStarted = false;
+		world->DestroyBody(player->body);
+		delete player;
+		player = CreateCircle(initialPos[0], initialPos[1], 10);
+		world->SetGravity({ 0.0f, 0.0f });
+		livesRemaining--;
+
+		if (livesRemaining <= -1) 
+		{
+			lastScore = score;
+			if (score > highScore) { highScore = score; }
+			score = 0;
+		}
+		else {livesRemaining--;}
+	}
+
+	// Draw everything in our batch!
+	DrawFPS(10, 10);
+
+	DrawText("SCORE:", 270, 10, 18, YELLOW);
+	DrawText(TextFormat("%d", score), 350, 10, 18, YELLOW);
+
+	DrawText("LAST:", 270, 25, 18, YELLOW);
+	DrawText(TextFormat("%d", lastScore), 350, 25, 18, YELLOW);
+
+	DrawText("BEST:", 270, 40, 18, YELLOW);
+	DrawText(TextFormat("%d", highScore), 350, 40, 18, YELLOW);
+
+	DrawText("LIVES:", 270, 80, 18, YELLOW);
+	DrawText(TextFormat("%d", livesRemaining), 350, 80, 18, YELLOW);
+
+	DrawText("DOWN: START SIMULATION", 10, 29, 18, YELLOW);
+	DrawText("LEFT: LEFT FLIPPER", 10, 45, 18, YELLOW);
+	DrawText("RIGHT: RIGHT FLIPPER", 10, 61, 18, YELLOW);
+	DrawText("R: RESTART", 10, 76, 18, YELLOW);
+
+	EndDrawing();
+
 	return UPDATE_CONTINUE;
 }
 
