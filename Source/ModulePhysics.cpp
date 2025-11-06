@@ -323,14 +323,14 @@ PhysBody* ModulePhysics::CreateBox(float x, float y, float w, float h, bool dyna
 	pbody->body = b;
 	return pbody;
 }
-b2RevoluteJoint* CreateRevoluteJoint(
-	b2Body* bodyA, b2Body* bodyB,
+b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(
+	PhysBody* bodyA, PhysBody* bodyB,
 	float anchorX_px, float anchorY_px,
 	float lowerDeg, float upperDeg,
 	bool enableMotor, float motorSpeedRad, float maxMotorTorque
 ) {
 	b2RevoluteJointDef jd;
-	jd.Initialize(bodyA, bodyB, b2Vec2(PIXEL_TO_METERS(anchorX_px), PIXEL_TO_METERS(anchorY_px)));
+	jd.Initialize(bodyA->body, bodyB->body, b2Vec2(PIXEL_TO_METERS(anchorX_px), PIXEL_TO_METERS(anchorY_px)));
 	jd.enableLimit = true;
 	jd.lowerAngle = lowerDeg * b2_pi / 180.0f;
 	jd.upperAngle = upperDeg * b2_pi / 180.0f;
