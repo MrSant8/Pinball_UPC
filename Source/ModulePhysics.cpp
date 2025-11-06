@@ -30,7 +30,7 @@ bool ModulePhysics::Start()
 	world = new b2World(b2Vec2 (0.0f,-9.8f));
 
 	b2BodyDef body;
-	body.type = b2_staticBody;
+	body.type = b2_dynamicBody;
 	body.position.Set(PIXEL_TO_METERS(initialPos[0]), PIXEL_TO_METERS(initialPos[1]));
 
 	b2Body* b = world->CreateBody(&body);
@@ -48,6 +48,8 @@ bool ModulePhysics::Start()
 
 update_status ModulePhysics::PreUpdate()
 {
+
+	world->Step(1.0f / 60.0f, 6, 2);
 
 	return UPDATE_CONTINUE;
 }
