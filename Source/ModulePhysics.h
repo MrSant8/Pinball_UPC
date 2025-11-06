@@ -73,6 +73,12 @@ public:
 	void crearMapa();
 	void BeginContact(b2Contact* contact);
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
+
+	int livesRemaining = 3;
+	int score = 0;
+	int highScore = 0;
+	int lastScore = 0;
+
 private:
 
 	bool debug;
