@@ -40,6 +40,8 @@ public:
 	bool CleanUp();
 
 	PhysBody* CreateCircle(int x, int y, int radius);
+
+	void CreateChain(int x, int y, const int* points, int size);
 	
 	int initialPos[2] = {345, 700};
 	PhysBody* player;
