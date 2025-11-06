@@ -32,8 +32,27 @@ bool ModulePhysics::Start()
 
 	player = CreateCircle(initialPos[0], initialPos[1], 10);
 
-	flipperD = CreateRectangle(212, 730, 50, 15);
-	flipperE = CreateRectangle(127 ,730, 50, 15);
+	//FLIPPERS
+	flipperD = CreateRectangle(212, 730, 50, 15, true);
+	flipperE = CreateRectangle(127, 730, 50, 15, true);
+	flipperAnchor = CreateBox(1, 1, 1, 1, false);
+
+
+	float yFlipper = 605.0f; //num PETIT -> flippers DALT, num GRAN -> flippers BAIX
+	float xLeft = 131.0f;    //num GRAN -> DRETA
+	float xRight = 209.0f;   //num PETIT -> ESQUERRA
+
+	flipperD->body->SetAngularDamping(5.0f);
+	flipperE->body->SetAngularDamping(5.0f);
+
+	float leftAnchorX = xLeft - flipperE->width * 0.5f + 6.0f;
+	float rightAnchorX = xRight + flipperD->width * 0.5f - 6.0f;
+
+	float lower = -30.0f, upper = 30.0f;
+
+	jointE = CreateRevoluteJoint(flipperAnchor, flipperE, leftAnchorX, yFlipper, lower, upper, true, -8.0f, 120.0f);
+	jointD = CreateRevoluteJoint(flipperAnchor, flipperD, rightAnchorX, yFlipper, lower, upper, true, 8.0f, 120.0f);
+
 	bumper1 = CreateCircle(126, 400, 24);
 	bumper1->body->SetType(b2_staticBody);
 	bumper2 = CreateCircle(350, 400, 24);
@@ -180,7 +199,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 	return pbody;
 }
 
-PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
+PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height,bool dynamic)
 {
 	PhysBody* pbody = new PhysBody();
 
@@ -239,6 +258,25 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, const int* points, int size)
 	pbody->width = pbody->height = 0;
 
 	return pbody;
+}
+
+PhysBody* CreateBox(float x, float y, float w, float h, bool dynamic) {
+	b2BodyDef bd;
+	bd.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+	bd.type = dynamic ? b2_dynamicBody : b2_kinematicBody;
+	PhysBody* body = world->CreateBody(&bd);
+
+	b2PolygonShape shape;
+	shape.SetAsBox(PIXEL_TO_METERS(w * 0.5f), PIXEL_TO_METERS(h * 0.5f));
+
+	b2FixtureDef fd;
+	fd.shape = &shape;
+	fd.density = dynamic ? 1.0f : 0.0f;
+	fd.friction = 0.4f;
+	fd.restitution = 0.05f;
+
+	body->body->CreateFixture(&fd);
+	return body;
 }
 
 // Called before quitting

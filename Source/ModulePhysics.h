@@ -42,7 +42,7 @@ public:
 	bool CleanUp();
 
 	PhysBody* CreateCircle(int x, int y, int radius);
-	PhysBody* CreateRectangle(int x, int y, int width, int height);
+	PhysBody* CreateRectangle(int x, int y, int width, int height,bool dynamic);
 	PhysBody* CreateChain(int x, int y, const int* points, int size);
 
 	int initialPos[2] = {345, 700};
@@ -59,7 +59,15 @@ public:
 	b2RevoluteJoint* jointD = nullptr;
 	b2RevoluteJoint* jointE = nullptr;
 
-	b2Body* flipperAnchor = nullptr;
+	PhysBody* flipperAnchor = nullptr;
+	PhysBody* CreateBox(float x, float y, float w, float h, bool dynamic);
+	b2RevoluteJoint* CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB,
+		float anchorX_px, float anchorY_px,
+		float lowerDeg, float upperDeg,
+		bool enableMotor, float motorSpeedRad, float maxMotorTorque
+	);
+
+
 	bool gameStarted = false;
 
 	void crearMapa();
