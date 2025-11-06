@@ -48,6 +48,9 @@ public:
 	PhysBody* player;
 	PhysBody* flipperD;
 	PhysBody* flipperE;
+	b2RevoluteJoint* leftJoint = nullptr;
+	b2RevoluteJoint* rightJoint = nullptr;
+	b2Body* flipperAnchor = nullptr;
 	bool gameStarted = false;
 
 	void crearMapa();
