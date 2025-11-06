@@ -89,6 +89,23 @@ update_status ModulePhysics::PostUpdate()
 		return UPDATE_CONTINUE;
 	}
 
+	if (IsKeyDown(KEY_LEFT))
+	{
+		jointE->SetMotorSpeed(-12.0f);
+	}
+	else
+	{
+		jointE->SetMotorSpeed(8.0f);
+	}
+	if (IsKeyDown(KEY_RIGHT)) 
+	{ 
+		jointD->SetMotorSpeed(12.0f); 
+	}
+	else
+	{
+		jointD->SetMotorSpeed(-8.0f);
+	}
+
 	if (IsKeyPressed(KEY_DOWN) && gameStarted == false) {
 		world->SetGravity({ 0.0f, 9.8f });
 		world->DestroyBody(player->body);

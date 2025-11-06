@@ -53,8 +53,6 @@ public:
 	PhysBody* bumper1;
 	PhysBody* bumper2;
 	PhysBody* bumper3;
-	b2RevoluteJoint* leftJoint = nullptr;
-	b2RevoluteJoint* rightJoint = nullptr;
 
 	b2RevoluteJoint* jointD = nullptr;
 	b2RevoluteJoint* jointE = nullptr;
