@@ -246,11 +246,13 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, const int* points, int size)
 	return pbody;
 }
 
-PhysBody* CreateBox(float x, float y, float w, float h, bool dynamic) {
+PhysBody* ModulePhysics::CreateBox(float x, float y, float w, float h, bool dynamic) {
+	PhysBody* pbody = new PhysBody();
+
 	b2BodyDef bd;
 	bd.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 	bd.type = dynamic ? b2_dynamicBody : b2_kinematicBody;
-	PhysBody* body = world->CreateBody(&bd);
+	b2Body* b = world->CreateBody(&bd);
 
 	b2PolygonShape shape;
 	shape.SetAsBox(PIXEL_TO_METERS(w * 0.5f), PIXEL_TO_METERS(h * 0.5f));
@@ -261,8 +263,10 @@ PhysBody* CreateBox(float x, float y, float w, float h, bool dynamic) {
 	fd.friction = 0.4f;
 	fd.restitution = 0.05f;
 
-	body->body->CreateFixture(&fd);
-	return body;
+	b->CreateFixture(&fd);
+
+	pbody->body = b;
+	return pbody;
 }
 b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(
 	PhysBody* bodyA, PhysBody* bodyB,
