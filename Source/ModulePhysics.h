@@ -46,6 +46,8 @@ public:
 
 	int initialPos[2] = {345, 700};
 	PhysBody* player;
+	PhysBody* flipperD;
+	PhysBody* flipperE;
 	bool gameStarted = false;
 
 	void crearMapa();

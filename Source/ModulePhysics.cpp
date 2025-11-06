@@ -30,6 +30,8 @@ bool ModulePhysics::Start()
 	world = new b2World(b2Vec2 (0.0f,0.0f));
 
 	player = CreateCircle(initialPos[0], initialPos[1], 10);
+	flipperD = CreateRectangle(40, 40, 10, 10);
+	flipperE = CreateRectangle(400 ,400, 10, 10);
 
 	crearMapa();
 	return true;
