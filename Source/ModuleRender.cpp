@@ -57,6 +57,9 @@ update_status ModuleRender::PostUpdate()
     DrawText("BEST:", 270, 40, 18, YELLOW);
     DrawText(TextFormat("%d", *score), 350, 40, 18, YELLOW);
 
+    DrawText("LIVES:", 270, 80, 18, YELLOW);
+    DrawText(TextFormat("%d", *score), 350, 80, 18, YELLOW);
+
     DrawText("DOWN: START SIMULATION",10 ,29 ,18 ,YELLOW );
     DrawText("LEFT: LEFT FLIPPER", 10, 45, 18, YELLOW);
     DrawText("RIGHT: RIGHT FLIPPER", 10, 61, 18, YELLOW);
