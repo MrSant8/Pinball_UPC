@@ -54,8 +54,8 @@ update_status ModuleRender::PostUpdate()
 
     DrawText("DOWN: START SIMULATION",10 ,29 ,18 ,YELLOW );
     DrawText("LEFT: LEFT FLIPPER", 10, 45, 18, YELLOW);
-    DrawText("RIGHT: RIGHT FLIPPER", 10, 65, 18, YELLOW);
-    DrawText("R: RESTART", 10, 82, 18, YELLOW);
+    DrawText("RIGHT: RIGHT FLIPPER", 10, 61, 18, YELLOW);
+    DrawText("R: RESTART", 10, 76, 18, YELLOW);
 
     EndDrawing();
 
