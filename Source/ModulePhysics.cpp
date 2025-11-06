@@ -148,6 +148,13 @@ update_status ModulePhysics::PostUpdate()
 			{
 				//game over
 			}
+			if (livesRemaining <= 0)
+			{
+
+				livesRemaining = 3;
+				ResetScore();
+			}
+
 		}
 
 	}
