@@ -57,9 +57,9 @@ public:
 	b2RevoluteJoint* jointD = nullptr;
 	b2RevoluteJoint* jointE = nullptr;
 
-	PhysBody* flipperAnchor = nullptr;
-	PhysBody* CreateBox(float x, float y, float w, float h, bool dynamic);
-	b2RevoluteJoint* CreateRevoluteJoint(PhysBody* bodyA, PhysBody* bodyB,
+	b2Body* flipperAnchor = nullptr;
+	b2Body* CreateBox(float x, float y, float w, float h, bool dynamic);
+	b2RevoluteJoint* CreateRevoluteJoint(b2Body* bodyA, b2Body* bodyB,
 		float anchorX_px, float anchorY_px,
 		float lowerDeg, float upperDeg,
 		bool enableMotor, float motorSpeedRad, float maxMotorTorque

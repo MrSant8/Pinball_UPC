@@ -49,8 +49,8 @@ bool ModulePhysics::Start()
 
 	float lower = -30.0f, upper = 30.0f;
 
-	jointE = CreateRevoluteJoint(flipperAnchor, flipperE, leftAnchorX, yFlipper, lower, upper, true, -8.0f, 120.0f);
-	jointD = CreateRevoluteJoint(flipperAnchor, flipperD, rightAnchorX, yFlipper, lower, upper, true, 8.0f, 120.0f);
+	jointE = CreateRevoluteJoint(flipperAnchor, flipperE->body, leftAnchorX, yFlipper, lower, upper, true, -8.0f, 120.0f);
+	jointD = CreateRevoluteJoint(flipperAnchor, flipperD->body, rightAnchorX, yFlipper, lower, upper, true, 8.0f, 120.0f);
 
 	bumper1 = CreateCircle(126, 400, 24);
 	bumper1->body->SetType(b2_staticBody);
@@ -264,7 +264,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, const int* points, int size)
 	return pbody;
 }
 
-PhysBody* ModulePhysics::CreateBox(float x, float y, float w, float h, bool dynamic) {
+b2Body* ModulePhysics::CreateBox(float x, float y, float w, float h, bool dynamic) {
 	PhysBody* pbody = new PhysBody();
 
 	b2BodyDef bd;
@@ -284,16 +284,16 @@ PhysBody* ModulePhysics::CreateBox(float x, float y, float w, float h, bool dyna
 	b->CreateFixture(&fd);
 
 	pbody->body = b;
-	return pbody;
+	return b;
 }
 b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(
-	PhysBody* bodyA, PhysBody* bodyB,
+	b2Body* bodyA, b2Body* bodyB,
 	float anchorX_px, float anchorY_px,
 	float lowerDeg, float upperDeg,
 	bool enableMotor, float motorSpeedRad, float maxMotorTorque) 
 {
 	b2RevoluteJointDef jd;
-	jd.Initialize(bodyA->body, bodyB->body, b2Vec2(PIXEL_TO_METERS(anchorX_px), PIXEL_TO_METERS(anchorY_px)));
+	jd.Initialize(bodyA, bodyB, b2Vec2(PIXEL_TO_METERS(anchorX_px), PIXEL_TO_METERS(anchorY_px)));
 	jd.enableLimit = true;
 	jd.lowerAngle = lowerDeg * b2_pi / 180.0f;
 	jd.upperAngle = upperDeg * b2_pi / 180.0f;
