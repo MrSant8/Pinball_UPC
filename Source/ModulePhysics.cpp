@@ -37,8 +37,8 @@ bool ModulePhysics::Start()
 	float xLeft = 136.0f;
 	float xRight = 201.0f;
 
-	flipperE = CreateRectangle((int)xLeft, (int)yFlipper, 65, 15);
-	flipperD = CreateRectangle((int)xRight, (int)yFlipper, 65, 15);
+	flipperE = CreateRectangle((int)xLeft, (int)yFlipper, 63, 15);
+	flipperD = CreateRectangle((int)xRight, (int)yFlipper, 63, 15);
 
 	flipperAnchor = CreateBox(0, 0, 1, 1, false);
 
