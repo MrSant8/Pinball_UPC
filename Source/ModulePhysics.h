@@ -6,11 +6,11 @@
 #include "box2d\box2d.h"
 
 #pragma region Units
-#define PIXELS_PER_METER 50.0f          // 1 metro = 50 píxeles
+#define PIXELS_PER_METER 50.0f          // 1 metro = 50 pÃ­xeles
 #define METER_PER_PIXEL (1.0f / PIXELS_PER_METER)
 
-#define PIXEL_TO_METERS(p) ((p) * METER_PER_PIXEL)  // pasar de píxeles a metros
-#define METERS_TO_PIXELS(m) ((m) * PIXELS_PER_METER) // pasar de metros a píxeles
+#define PIXEL_TO_METERS(p) ((p) * METER_PER_PIXEL)  // pasar de pÃ­xeles a metros
+#define METERS_TO_PIXELS(m) ((m) * PIXELS_PER_METER) // pasar de metros a pÃ­xeles
 #pragma endregion
 
 
@@ -28,7 +28,7 @@ public:
 
 
 // Module --------------------------------------
-class ModulePhysics : public Module
+class ModulePhysics : public Module, public b2ContactListener // TODO
 {
 public:
 	ModulePhysics(Application* app, bool start_enabled = true);
@@ -39,7 +39,8 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	PhysBody* CreateCircle(int x, int y, int radius);
+
+	/*PhysBody* CreateCircle(int x, int y, int radius);*/
 	
 	int initialPos[2] = {346, 700};
 	PhysBody* player;
