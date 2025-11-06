@@ -47,8 +47,15 @@ update_status ModuleRender::PostUpdate()
     // Draw everything in our batch!
     DrawFPS(10, 10);
 
+    int score = 0;
+
+    DrawText("SCORE:", 270, 10, 18, YELLOW);
+    DrawText(TextFormat("%d", score), 350, 10, 18, YELLOW);
+
     DrawText("DOWN: START SIMULATION",10 ,29 ,18 ,YELLOW );
-    DrawText("R: RESTART", 10, 45, 18, YELLOW);
+    DrawText("LEFT: LEFT FLIPPER", 10, 45, 18, YELLOW);
+    DrawText("RIGHT: RIGHT FLIPPER", 10, 65, 18, YELLOW);
+    DrawText("R: RESTART", 10, 82, 18, YELLOW);
 
     EndDrawing();
 
