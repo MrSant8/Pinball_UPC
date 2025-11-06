@@ -25,7 +25,7 @@ bool ModuleGame::Start()
 
 	//aqui s'ha de declarar totes les coordenades del mapa part1
 
-	int mapaHD[44] = {
+	/*int mapaHD[44] = {
 	328, 653,
 	329, 164,
 	317, 137,
@@ -48,9 +48,9 @@ bool ModuleGame::Start()
 	292, 595,
 	240, 621,
 	240, 653
-	};
+	};*/
 
-	App->physics->CreateChain(0, 105, mapaHD, 62); //CAL AJUSTAR COORDENADES SEGURAMENT
+	//App->physics->CreateChain(0, 105, mapaHD, 62); //CAL AJUSTAR COORDENADES SEGURAMENT
 
 
 	//aqui fer lo mateix amb mapa part 2:
