@@ -55,7 +55,7 @@ bool ModulePhysics::Start()
 
 	bumper1 = CreateCircle(126, 400, 24);
 	bumper1->body->SetType(b2_staticBody);
-	bumper2 = CreateCircle(350, 400, 24);
+	bumper2 = CreateCircle(220, 400, 24);
 	bumper2->body->SetType(b2_staticBody);
 	bumper3 = CreateCircle(173, 324, 24);
 	bumper3->body->SetType(b2_staticBody);
@@ -67,22 +67,9 @@ bool ModulePhysics::Start()
 update_status ModulePhysics::PreUpdate()
 {
 	world->Step(1.0f / 60.0f, 6, 2);
-	for (b2Contact* c = world->GetContactList(); c; c = c->GetNext())
-	{
-		if (c->GetFixtureA()->IsSensor() && c->IsTouching())
-		{
-			b2BodyUserData data1 = c->GetFixtureA()->GetBody()->GetUserData();
-			b2BodyUserData data2 = c->GetFixtureA()->GetBody()->GetUserData();
-
-			PhysBody* pb1 = (PhysBody*)data1.pointer;
-			PhysBody* pb2 = (PhysBody*)data2.pointer;
-			if (pb1 && pb2 && pb1->listener)
-				pb1->listener->OnCollision(pb1, pb2);
-		}
-	}
-	/*player->listener->OnCollision(player, bumper1);
+	player->listener->OnCollision(player, bumper1);
 	player->listener->OnCollision(player, bumper2);
-	player->listener->OnCollision(player, bumper3);*/
+	player->listener->OnCollision(player, bumper3);
 	return UPDATE_CONTINUE;
 }
 
@@ -171,48 +158,7 @@ update_status ModulePhysics::PostUpdate()
 			}
 		}
 	}
-
-	b2Vec2 position = player->body->GetPosition();
-	if (position.y > 790)
-	{
-		gameStarted = false;
-		world->DestroyBody(player->body);
-		delete player;
-		player = CreateCircle(initialPos[0], initialPos[1], 10);
-		world->SetGravity({ 0.0f, 0.0f });
-		livesRemaining--;
-
-		if (livesRemaining <= -1) 
-		{
-			lastScore = score;
-			if (score > highScore) { highScore = score; }
-			score = 0;
-		}
-		else {livesRemaining--;}
-	}
-
-	// Draw everything in our batch!
-	DrawFPS(10, 10);
-
-	DrawText("SCORE:", 270, 10, 18, YELLOW);
-	DrawText(TextFormat("%d", score), 350, 10, 18, YELLOW);
-
-	DrawText("LAST:", 270, 25, 18, YELLOW);
-	DrawText(TextFormat("%d", lastScore), 350, 25, 18, YELLOW);
-
-	DrawText("BEST:", 270, 40, 18, YELLOW);
-	DrawText(TextFormat("%d", highScore), 350, 40, 18, YELLOW);
-
-	DrawText("LIVES:", 270, 80, 18, YELLOW);
-	DrawText(TextFormat("%d", livesRemaining), 350, 80, 18, YELLOW);
-
-	DrawText("DOWN: START SIMULATION", 10, 29, 18, YELLOW);
-	DrawText("LEFT: LEFT FLIPPER", 10, 45, 18, YELLOW);
-	DrawText("RIGHT: RIGHT FLIPPER", 10, 61, 18, YELLOW);
-	DrawText("R: RESTART", 10, 76, 18, YELLOW);
-
-	EndDrawing();
-
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -236,7 +182,6 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 	PhysBody* pbody = new PhysBody();
 	pbody->body = b;
 	pbody->listener = this;
-	body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
 	return pbody;
 }
 
@@ -271,7 +216,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, const int* points, int size)
 	PhysBody* pbody = new PhysBody();
 
 	b2BodyDef body;
-	body.type = b2_kinematicBody;
+	body.type = b2_staticBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 	body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
 
@@ -301,13 +246,11 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, const int* points, int size)
 	return pbody;
 }
 
-PhysBody* ModulePhysics::CreateBox(float x, float y, float w, float h, bool dynamic) {
-	PhysBody* pbody = new PhysBody();
+PhysBody* CreateBox(float x, float y, float w, float h, bool dynamic) {
 	b2BodyDef bd;
 	bd.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 	bd.type = dynamic ? b2_dynamicBody : b2_kinematicBody;
-
-	b2Body* b = world->CreateBody(&bd);
+	PhysBody* body = world->CreateBody(&bd);
 
 	b2PolygonShape shape;
 	shape.SetAsBox(PIXEL_TO_METERS(w * 0.5f), PIXEL_TO_METERS(h * 0.5f));
@@ -318,19 +261,17 @@ PhysBody* ModulePhysics::CreateBox(float x, float y, float w, float h, bool dyna
 	fd.friction = 0.4f;
 	fd.restitution = 0.05f;
 
-	b->CreateFixture(&fd);
-
-	pbody->body = b;
-	return pbody;
+	body->body->CreateFixture(&fd);
+	return body;
 }
 b2RevoluteJoint* CreateRevoluteJoint(
-	b2Body* bodyA, b2Body* bodyB,
+	PhysBody* bodyA, PhysBody* bodyB,
 	float anchorX_px, float anchorY_px,
 	float lowerDeg, float upperDeg,
-	bool enableMotor, float motorSpeedRad, float maxMotorTorque
-) {
+	bool enableMotor, float motorSpeedRad, float maxMotorTorque) 
+{
 	b2RevoluteJointDef jd;
-	jd.Initialize(bodyA, bodyB, b2Vec2(PIXEL_TO_METERS(anchorX_px), PIXEL_TO_METERS(anchorY_px)));
+	jd.Initialize(bodyA->body, bodyB->body, b2Vec2(PIXEL_TO_METERS(anchorX_px), PIXEL_TO_METERS(anchorY_px)));
 	jd.enableLimit = true;
 	jd.lowerAngle = lowerDeg * b2_pi / 180.0f;
 	jd.upperAngle = upperDeg * b2_pi / 180.0f;
@@ -480,20 +421,21 @@ void ModulePhysics::crearMapa() {
 
 void ModulePhysics::BeginContact(b2Contact* contact)
 {
-	b2Body* bodyA = contact->GetFixtureA()->GetBody();
-	b2Body* bodyB = contact->GetFixtureB()->GetBody();
+	b2BodyUserData dataA = contact->GetFixtureA()->GetBody()->GetUserData();
+	b2BodyUserData dataB = contact->GetFixtureB()->GetBody()->GetUserData();
 
-	if (bodyA->GetType() == b2_staticBody && bodyB->GetType() == b2_dynamicBody) {
-		player->body->ApplyLinearImpulseToCenter(b2Vec2(0.0f, 100.5f), true);
-	}
+	PhysBody* physA = (PhysBody*)dataA.pointer;
+	PhysBody* physB = (PhysBody*)dataB.pointer;
 
-	if (bodyB->GetType() == b2_staticBody && bodyA->GetType() == b2_dynamicBody) {
-		player->body->ApplyLinearImpulseToCenter(b2Vec2(0.0f, 100.5f), true);
-	}
+	if (physA && physA->listener != NULL)
+		physA->listener->OnCollision(physA, physB);
+
+	if (physB && physB->listener != NULL)
+		physB->listener->OnCollision(physB, physA);
 }
 
 void ModulePhysics::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-	player->body->ApplyLinearImpulseToCenter(b2Vec2(0.0f, -2.5f), true);
+	LOG("holaaa");
 	//score = score + 100;
 }
