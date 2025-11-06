@@ -30,7 +30,7 @@ bool ModulePhysics::Start()
 
 	b2BodyDef body;
 	body.type = b2_staticBody;
-	body.position.Set(PIXEL_TO_METERS(100), PIXEL_TO_METERS(100));
+	body.position.Set(PIXEL_TO_METERS(initialPos[0]), PIXEL_TO_METERS(initialPos[1]));
 
 	b2Body* b = world->CreateBody(&body);
 

@@ -42,7 +42,7 @@ public:
 
 	/*PhysBody* CreateCircle(int x, int y, int radius);*/
 	
-
+	int initialPos[2] = {345, 700};
 	
 
 private:
