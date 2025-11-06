@@ -48,6 +48,8 @@ public:
 	PhysBody* player;
 	bool gameStarted = false;
 
+	void crearMapa();
+
 private:
 
 	bool debug;
