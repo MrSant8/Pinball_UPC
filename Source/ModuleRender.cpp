@@ -45,24 +45,26 @@ update_status ModuleRender::Update()
 // PostUpdate present buffer to screen
 update_status ModuleRender::PostUpdate()
 {
-    //// Draw everything in our batch!
-    //DrawFPS(10, 10);
+    // Draw everything in our batch!
+    DrawFPS(10, 10);
 
-    //DrawText("SCORE:", 270, 10, 18, YELLOW);
-    //DrawText(TextFormat("%d", score), 350, 10, 18, YELLOW);
+    int score = 0;
 
-    //DrawText("LAST:", 270,25, 18, YELLOW);
-    //DrawText(TextFormat("%d", score), 350, 25, 18, YELLOW);
+    DrawText("SCORE:", 270, 10, 18, YELLOW);
+    DrawText(TextFormat("%d", score), 350, 10, 18, YELLOW);
 
-    //DrawText("BEST:", 270, 40, 18, YELLOW);
-    //DrawText(TextFormat("%d", score), 350, 40, 18, YELLOW);
+    DrawText("LAST:", 270,25, 18, YELLOW);
+    DrawText(TextFormat("%d", score), 350, 25, 18, YELLOW);
 
-    //DrawText("DOWN: START SIMULATION",10 ,29 ,18 ,YELLOW );
-    //DrawText("LEFT: LEFT FLIPPER", 10, 45, 18, YELLOW);
-    //DrawText("RIGHT: RIGHT FLIPPER", 10, 61, 18, YELLOW);
-    //DrawText("R: RESTART", 10, 76, 18, YELLOW);
+    DrawText("BEST:", 270, 40, 18, YELLOW);
+    DrawText(TextFormat("%d", score), 350, 40, 18, YELLOW);
 
-    //EndDrawing();
+    DrawText("DOWN: START SIMULATION",10 ,29 ,18 ,YELLOW );
+    DrawText("LEFT: LEFT FLIPPER", 10, 45, 18, YELLOW);
+    DrawText("RIGHT: RIGHT FLIPPER", 10, 61, 18, YELLOW);
+    DrawText("R: RESTART", 10, 76, 18, YELLOW);
+
+    EndDrawing();
 
 	return UPDATE_CONTINUE;
 }
