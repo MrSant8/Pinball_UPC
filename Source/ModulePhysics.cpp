@@ -28,11 +28,17 @@ bool ModulePhysics::Start()
 	LOG("Creating Physics 2D environment");
 	
 	world = new b2World(b2Vec2 (0.0f,0.0f));
+	world->SetContactListener(this);
 
 	player = CreateCircle(initialPos[0], initialPos[1], 10);
 	flipperD = CreateRectangle(212, 730, 50, 15);
 	flipperE = CreateRectangle(127 ,730, 50, 15);
-
+	bumper1 = CreateCircle(126, 400, 24);
+	bumper1->body->SetType(b2_staticBody);
+	bumper2 = CreateCircle(220, 400, 24);
+	bumper2->body->SetType(b2_staticBody);
+	bumper3 = CreateCircle(173, 324, 24);
+	bumper3->body->SetType(b2_staticBody);
 	crearMapa();
 	return true;
 }
@@ -40,7 +46,9 @@ bool ModulePhysics::Start()
 update_status ModulePhysics::PreUpdate()
 {
 	world->Step(1.0f / 60.0f, 6, 2);
-
+	player->listener->OnCollision(player, bumper1);
+	player->listener->OnCollision(player, bumper2);
+	player->listener->OnCollision(player, bumper3);
 	return UPDATE_CONTINUE;
 }
 
@@ -84,7 +92,6 @@ update_status ModulePhysics::PostUpdate()
 		{
 			switch (f->GetType())
 			{
-				// Draw circles ------------------------------------------------
 			case b2Shape::e_circle:
 			{
 				b2CircleShape* shape = (b2CircleShape*)f->GetShape();
@@ -144,7 +151,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
 	b2Body* b = world->CreateBody(&body);
-
+	
 	b2CircleShape shape;
 	shape.m_radius = PIXEL_TO_METERS(radius);
 	b2FixtureDef fixture;
@@ -155,7 +162,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 
 	PhysBody* pbody = new PhysBody();
 	pbody->body = b;
-
+	pbody->listener = this;
 	return pbody;
 }
 
@@ -241,30 +248,30 @@ void PhysBody::GetPosition(int& x, int& y) const
 
 void ModulePhysics::crearMapa() {
 	int mapaHD[102] = {
-	360, 650,
-	360, 170,
+	357, 650,
+	358, 170,
 	346, 116,
 	332, 88,
 	296, 52,
-	252, 28,
-	217, 22,
-	172, 22,
-	138, 25,
+	251, 32,
+	217, 24,
+	171, 24,
+	140, 28,
 	108, 37,
-	70, 62,
-	48, 84,
-	34, 109,
-	19, 143,
-	17, 204,
-	20, 227,
-	28, 252,
-	75, 382,
+	72, 64,
+	50, 85,
+	36, 109,
+	21, 154,
+	19, 201,
+	23, 223,
+	30, 251,
+	79, 381,
 	71, 390,
 	82, 397,
 	82, 406,
 	40, 442,
-	23, 430,
-	23, 591,
+	26, 433,
+	26, 591,
 	31, 600,
 	48, 601,
 	54, 594,
@@ -276,22 +283,22 @@ void ModulePhysics::crearMapa() {
 	297, 601,
 	315, 601,
 	321, 593,
-	324, 462,
-	293, 449,
-	322, 358,
-	320, 192,
-	304, 178,
-	287, 195,
-	274, 191,
-	241, 160,
-	242, 119,
-	266, 91,
-	280, 91,
-	303, 116,
-	311, 139,
-	319, 140,
-	326, 163,
-	330, 651
+	320, 469,
+	289, 451,
+	319, 362,
+	320, 196,
+	304, 182,
+	289, 196,
+	273, 196,
+	241, 163,
+	240, 115,
+	267, 88,
+	282, 88,
+	307, 113,
+	317, 136,
+	323, 138,
+	332, 162,
+	332, 654
 	};
 
 	//Triangles raros que no son triangles
@@ -323,9 +330,59 @@ void ModulePhysics::crearMapa() {
 	106, 157,
 	76, 189
 	};
+
+	//Pals
+	int pal[16] = {
+	132, 161,
+	132, 119,
+	136, 115,
+	140, 115,
+	144, 119,
+	144, 161,
+	141, 165,
+	136, 165
+	};
+	int palDiagonal[22] = {
+	84, 263,
+	88, 263,
+	92, 259,
+	92, 254,
+	77, 215,
+	71, 215,
+	68, 219,
+	69, 226,
+	75, 243,
+	78, 250,
+	80, 259
+	};
 	//Crear limits mon
 	PhysBody* Mapa = CreateChain(0, 105, mapaHD, 102);
 	PhysBody* cosa_1 = CreateChain(0, 105, cosa1, 14);
 	PhysBody* cosa_2 = CreateChain(0, 105, cosa2, 14);
 	PhysBody* cosa_3 = CreateChain(0, 105, cosa3, 16);
+	PhysBody* pal1 = CreateChain(0, 105, pal, 16);
+	PhysBody* pal2 = CreateChain(36, 105, pal, 16);
+	PhysBody* pal3 = CreateChain(72, 105, pal, 16);
+	PhysBody* diagonal = CreateChain(0, 105, palDiagonal, 22);
+}
+
+void ModulePhysics::BeginContact(b2Contact* contact)
+{
+	b2BodyUserData dataA = contact->GetFixtureA()->GetBody()->GetUserData();
+	b2BodyUserData dataB = contact->GetFixtureB()->GetBody()->GetUserData();
+
+	PhysBody* physA = (PhysBody*)dataA.pointer;
+	PhysBody* physB = (PhysBody*)dataB.pointer;
+
+	if (physA && physA->listener != NULL)
+		physA->listener->OnCollision(physA, physB);
+
+	if (physB && physB->listener != NULL)
+		physB->listener->OnCollision(physB, physA);
+}
+
+void ModulePhysics::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
+{
+	LOG("holaaa");
+	//score = score + 100;
 }

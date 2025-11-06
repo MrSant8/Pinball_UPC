@@ -24,12 +24,13 @@ public:
 
 public:
 	b2Body* body;
+	Module* listener;
 };
 
 
 
 // Module --------------------------------------
-class ModulePhysics : public Module
+class ModulePhysics : public Module , public b2ContactListener
 {
 public:
 	ModulePhysics(Application* app, bool start_enabled = true);
@@ -48,13 +49,17 @@ public:
 	PhysBody* player;
 	PhysBody* flipperD;
 	PhysBody* flipperE;
+	PhysBody* bumper1;
+	PhysBody* bumper2;
+	PhysBody* bumper3;
 	b2RevoluteJoint* leftJoint = nullptr;
 	b2RevoluteJoint* rightJoint = nullptr;
 	b2Body* flipperAnchor = nullptr;
 	bool gameStarted = false;
 
 	void crearMapa();
-
+	void BeginContact(b2Contact* contact);
+	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 private:
 
 	bool debug;
