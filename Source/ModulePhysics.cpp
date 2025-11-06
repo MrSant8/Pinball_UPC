@@ -32,25 +32,26 @@ bool ModulePhysics::Start()
 	player = CreateCircle(initialPos[0], initialPos[1], 10);
 
 	//FLIPPERS
-	flipperD = CreateRectangle(212, 730, 50, 15);
-	flipperE = CreateRectangle(127, 730, 50, 15);
-	flipperAnchor = CreateBox(1, 1, 1, 1, false);
+	
+	float yFlipper = 738.0f;
+	float xLeft = 136.0f;
+	float xRight = 201.0f;
 
+	flipperE = CreateRectangle((int)xLeft, (int)yFlipper, 65, 15);
+	flipperD = CreateRectangle((int)xRight, (int)yFlipper, 65, 15);
 
-	float yFlipper = 605.0f; //num PETIT -> flippers DALT, num GRAN -> flippers BAIX
-	float xLeft = 131.0f;    //num GRAN -> DRETA
-	float xRight = 209.0f;   //num PETIT -> ESQUERRA
+	flipperAnchor = CreateBox(0, 0, 1, 1, false);
 
-	flipperD->body->SetAngularDamping(5.0f);
-	flipperE->body->SetAngularDamping(5.0f);
-
-	float leftAnchorX = xLeft - flipperE->width * 0.5f + 60.0f;
-	float rightAnchorX = xRight + flipperD->width * 0.5f - 6.0f;
+	float leftAnchorX = xLeft - flipperE->width * 0.5f + 6.0f;   // pivote del izquierdo
+	float rightAnchorX = xRight + flipperD->width * 0.5f - 6.0f;   // pivote del derecho
 
 	float lower = -30.0f, upper = 30.0f;
 
-	jointE = CreateRevoluteJoint(flipperAnchor, flipperE, leftAnchorX, yFlipper, lower, upper, true, -8.0f, 120.0f);
-	jointD = CreateRevoluteJoint(flipperAnchor, flipperD, rightAnchorX, yFlipper, lower, upper, true, 8.0f, 120.0f);
+	jointE = CreateRevoluteJoint(flipperAnchor, flipperE, leftAnchorX, yFlipper, lower, upper, true, -12.0f, 120.0f);
+	jointD = CreateRevoluteJoint(flipperAnchor, flipperD, rightAnchorX, yFlipper, lower, upper, true, 12.0f, 120.0f);
+
+	flipperE->body->SetTransform(flipperE->body->GetPosition(), 0.0f);
+	flipperD->body->SetTransform(flipperD->body->GetPosition(), 0.0f);
 
 	bumper1 = CreateCircle(126, 400, 24);
 	bumper1->body->SetType(b2_staticBody);
