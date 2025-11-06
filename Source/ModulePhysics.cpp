@@ -50,7 +50,7 @@ update_status ModulePhysics::PostUpdate()
 {
 	//FLIPPERS
 
-	flipperAnchor = physics->CreateBox(1, 1, 1, 1, false);
+	/*flipperAnchor = physics->CreateBox(1, 1, 1, 1, false);*/
 
 	if (IsKeyPressed(KEY_F1))
 	{
