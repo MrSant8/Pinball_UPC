@@ -27,7 +27,7 @@ bool ModulePhysics::Start()
 {
 	LOG("Creating Physics 2D environment");
 	
-	world = new b2World(b2Vec2 (0.0f,9.8f));
+	world = new b2World(b2Vec2 (0.0f,0.0f));
 
 	player = CreateCircle(initialPos[0], initialPos[1], 10);
 
@@ -59,12 +59,17 @@ update_status ModulePhysics::PostUpdate()
 	}
 
 	if (IsKeyPressed(KEY_DOWN) && gameStarted == false) {
+		world->SetGravity({ 0.0f, 9.8f });
+		delete player;
+		player = CreateCircle(initialPos[0], initialPos[1], 10);
 		//player->ApplyLinearImpulseToCenter(b2Vec2(0.0f, -12.0f), true);
 		gameStarted = true;
 	}
 	else if (IsKeyPressed(KEY_R) && gameStarted == true) {
 		gameStarted = false;
-		//Destruir la bola i crear una nova a la posicio inicial
+		delete player;
+		player = CreateCircle(initialPos[0], initialPos[1], 10);
+		world->SetGravity({ 0.0f, 0.0f });
 	}
 
 	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
