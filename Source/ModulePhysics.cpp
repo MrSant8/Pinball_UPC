@@ -55,9 +55,9 @@ bool ModulePhysics::Start()
 
 	bumper1 = CreateCircle(126, 400, 24);
 	bumper1->body->SetType(b2_staticBody);
-	bumper2 = CreateCircle(220, 400, 24);
+	bumper2 = CreateCircle(220, 400, 24); 
 	bumper2->body->SetType(b2_staticBody);
-	bumper3 = CreateCircle(173, 324, 24);
+	bumper3 = CreateCircle(173, 324, 24); 
 	bumper3->body->SetType(b2_staticBody);
 
 	crearMapa();
@@ -117,7 +117,7 @@ update_status ModulePhysics::PostUpdate()
 		delete player;
 		player = CreateCircle(initialPos[0], initialPos[1], 10);
 		world->SetGravity({ 0.0f, 0.0f });
-		score = 0;
+		ResetScore();
 	}
 
 	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
@@ -470,4 +470,11 @@ void ModulePhysics::BeginContact(b2Contact* contact)
 void ModulePhysics::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
 	score = score + 10;
+}
+
+void ModulePhysics:: ResetScore()
+{
+	lastScore = score;
+	if (score > highScore) { highScore = score; }
+	score = 0;
 }

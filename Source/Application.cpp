@@ -16,6 +16,9 @@ Application::Application()
 	physics = new ModulePhysics(this);
 	scene_intro = new ModuleGame(this);
 	renderer->score = &physics->score;
+	renderer->highScore = &physics->highScore;
+	renderer->lastScore = &physics->lastScore;
+	renderer->livesRemaining = &physics->livesRemaining;
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
