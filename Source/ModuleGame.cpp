@@ -58,5 +58,13 @@ update_status ModuleGame::Update()
 		App->renderer->Draw(circle, 40 - circle.width * 0.5f, 40 - circle.height * 0.5f);*/
 	}
 
+	for each (PhysBody * body in bodies)
+	{
+		int x, y;
+		body->GetPosition(x, y);
+
+		App->renderer->Draw(circle, x - circle.width * 0.5f, y - circle.height * 0.5f);
+	}
+
 	return UPDATE_CONTINUE;
 }

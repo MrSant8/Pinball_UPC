@@ -29,5 +29,5 @@ public:
 	Texture2D circle;
 
 	std::vector<PhysicEntity*> entities;
-	
+	std::vector<PhysBody*> bodies;
 };

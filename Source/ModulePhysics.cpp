@@ -28,8 +28,18 @@ bool ModulePhysics::Start()
 	
 	world = new b2World(b2Vec2 (0.0f,9.8f));
 
+	b2BodyDef body;
+	body.type = b2_staticBody;
+	body.position.Set(PIXEL_TO_METERS(100), PIXEL_TO_METERS(100));
 
-	
+	b2Body* b = world->CreateBody(&body);
+
+	b2CircleShape shape;
+	shape.m_radius = PIXEL_TO_METERS(20) * 0.5f;
+
+	b2FixtureDef fixture;
+	fixture.shape = &shape;
+	b->CreateFixture(&fixture);
 
 
 	return true;
@@ -58,15 +68,27 @@ update_status ModulePhysics::PostUpdate()
 	}
 
 	
+	for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
+	{
+		for (b2Fixture* f = b->GetFixtureList(); f; f = f->GetNext())
+		{
+			switch (f->GetType())
+			{
+				// Draw circles ------------------------------------------------
+			case b2Shape::e_circle:
+			{
+				b2CircleShape* shape = (b2CircleShape*)f->GetShape();
+				b2Vec2 pos = f->GetBody()->GetPosition();
 
+				DrawCircle(METERS_TO_PIXELS(pos.x), METERS_TO_PIXELS(pos.y), (float)METERS_TO_PIXELS(shape->m_radius), WHITE);
+			}
+			break;
+			}
+		}
+	}
 	
 	return UPDATE_CONTINUE;
 }
-
-
-
-
-
 
 // Called before quitting
 bool ModulePhysics::CleanUp()
@@ -79,10 +101,9 @@ bool ModulePhysics::CleanUp()
 	return true;
 }
 
-
-
-
-
-
-
-
+void PhysBody::GetPosition(int& x, int& y) const
+{
+	b2Vec2 pos = body->GetPosition();
+	x = METERS_TO_PIXELS(pos.x);
+	y = METERS_TO_PIXELS(pos.y);
+}
