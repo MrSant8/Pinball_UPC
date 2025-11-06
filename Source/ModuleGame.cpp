@@ -5,19 +5,6 @@
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
 
-//Quan creem la bola aqui hem de fer que Player1->ball = la bola que hem creat
-
-
-
-
-
-
-
-
-
-
-
-
 ModuleGame::ModuleGame(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	
@@ -34,6 +21,39 @@ bool ModuleGame::Start()
 
 	mapa = LoadTexture("Assets/mapaHD.png");
 	circle = LoadTexture("Assets/bola.png");
+
+
+	//aqui s'ha de declarar totes les coordenades del mapa part1
+
+	int mapaHD[44] = {
+	328, 653,
+	329, 164,
+	317, 137,
+	304, 114,
+	282, 91,
+	268, 90,
+	243, 115,
+	243, 163,
+	275, 193,
+	286, 193,
+	298, 182,
+	308, 182,
+	322, 195,
+	322, 362,
+	292, 448,
+	323, 464,
+	324, 593,
+	313, 601,
+	299, 600,
+	292, 595,
+	240, 621,
+	240, 653
+	};
+
+	App->physics->CreateChain(0, 105, mapaHD, 62); //CAL AJUSTAR COORDENADES SEGURAMENT
+
+
+	//aqui fer lo mateix amb mapa part 2:
 
 	return ret;
 }
