@@ -264,7 +264,7 @@ PhysBody* CreateBox(float x, float y, float w, float h, bool dynamic) {
 	body->body->CreateFixture(&fd);
 	return body;
 }
-b2RevoluteJoint* CreateRevoluteJoint(
+b2RevoluteJoint* ModulePhysics::CreateRevoluteJoint(
 	PhysBody* bodyA, PhysBody* bodyB,
 	float anchorX_px, float anchorY_px,
 	float lowerDeg, float upperDeg,
@@ -436,6 +436,4 @@ void ModulePhysics::BeginContact(b2Contact* contact)
 
 void ModulePhysics::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
-	LOG("holaaa");
-	//score = score + 100;
 }
