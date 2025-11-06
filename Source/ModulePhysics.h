@@ -6,11 +6,11 @@
 #include "box2d\box2d.h"
 
 #pragma region Units
-#define PIXELS_PER_METER 50.0f          // 1 metro = 50 píxeles
+#define PIXELS_PER_METER 50.0f          // 1 metro = 50 pï¿½xeles
 #define METER_PER_PIXEL (1.0f / PIXELS_PER_METER)
 
-#define PIXEL_TO_METERS(p) ((p) * METER_PER_PIXEL)  // pasar de píxeles a metros
-#define METERS_TO_PIXELS(m) ((m) * PIXELS_PER_METER) // pasar de metros a píxeles
+#define PIXEL_TO_METERS(p) ((p) * METER_PER_PIXEL)  // pasar de pï¿½xeles a metros
+#define METERS_TO_PIXELS(m) ((m) * PIXELS_PER_METER) // pasar de metros a pï¿½xeles
 #pragma endregion
 
 
@@ -49,11 +49,16 @@ public:
 	PhysBody* player;
 	PhysBody* flipperD;
 	PhysBody* flipperE;
+
 	PhysBody* bumper1;
 	PhysBody* bumper2;
 	PhysBody* bumper3;
 	b2RevoluteJoint* leftJoint = nullptr;
 	b2RevoluteJoint* rightJoint = nullptr;
+
+	b2RevoluteJoint* jointD = nullptr;
+	b2RevoluteJoint* jointE = nullptr;
+
 	b2Body* flipperAnchor = nullptr;
 	bool gameStarted = false;
 
