@@ -117,33 +117,6 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius)
 	return pbody;
 }
 
-
-PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
-{
-	PhysBody* pbody = new PhysBody();
-
-	b2BodyDef body;
-	body.type = b2_dynamicBody;
-	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-	body.userData.pointer = reinterpret_cast<uintptr_t>(pbody);
-
-	b2Body* b = world->CreateBody(&body);
-	b2PolygonShape box;
-	box.SetAsBox(PIXEL_TO_METERS(width) * 0.5f, PIXEL_TO_METERS(height) * 0.5f);
-
-	b2FixtureDef fixture;
-	fixture.shape = &box;
-	fixture.density = 1.0f;
-
-	b->CreateFixture(&fixture);
-
-	pbody->body = b;
-	pbody->width = (int)(width * 0.5f);
-	pbody->height = (int)(height * 0.5f);
-
-	return pbody;
-}
-
 void ModulePhysics::CreateChain(int x, int y, const int* points, int size)
 {
 	b2Vec2* vertices = new b2Vec2[size / 2];
